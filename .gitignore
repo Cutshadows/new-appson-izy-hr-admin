@@ -1,2 +1,15 @@
 node_modules
 platforms
+.idea
+plugins
+resources
+www
+$RECYCLE.BIN/
+.temp
+.sass-cache
+.DS_Store
+.vscode
+*.mode1v3
+*.perspectivev3
+*.pbxuser
+platforms/ios/build
