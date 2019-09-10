@@ -1,0 +1,7 @@
+{
+  "name": "izyhradmin",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

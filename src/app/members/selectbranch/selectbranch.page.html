@@ -1,0 +1,24 @@
+<app-header 
+titulo="SELECCIONAR SUCURSAL" ></app-header>
+<ion-content fullscreen="true" padding class="custom-background" >
+  <div class="custom-padding-left-right custom-white">
+    <div class="custom-xlg-margin">
+      <div class="custom-border-bottom">        
+        <ion-select placeholder="SELECCIONAR SUCURSAL" color="light" [(ngModel)]="branchItem" okText="De acuerdo" cancelText="Cancelar" interface="popover">
+          <ion-select-option value="{{ branchItem.Id }}-{{ branchItem.Name }}" *ngFor="let branchItem of branchByUserResumeItems">{{ branchItem.Name }}</ion-select-option>
+        </ion-select>        
+      </div>      
+    </div>
+    <div class="center">
+      <ion-button class="custom-m-margin" shape="round" color="light" size="large" (click)="attendanceviewGo()">
+        <span class="custom-p-left-right-md">VER</span>
+      </ion-button>
+    </div>
+  </div>  
+</ion-content>
+<app-footer></app-footer>
+<app-menu-footer
+[valCapa]="currentVal"
+id="selectSucursal" 
+(goDashboard)='dashboardGo()' 
+(logout)="logout()"></app-menu-footer>

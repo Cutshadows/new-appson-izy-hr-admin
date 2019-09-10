@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "91074365498",
+    "firebase_url": "https://itcnotifications-f6302.firebaseio.com",
+    "project_id": "itcnotifications-f6302",
+    "storage_bucket": "itcnotifications-f6302.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91074365498:android:5c97bf197f7ec818",
+        "android_client_info": {
+          "package_name": "com.izyhradmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "91074365498-vqf5vq8tc3nsts3v9k0iot6p9b8bkvul.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdnOWdAHZgusaY5TUp466MCWTKdSZxzg8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "91074365498-vqf5vq8tc3nsts3v9k0iot6p9b8bkvul.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "91074365498-kodjdi65oirfa3deqgsohngj0tv9cpoj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.izyhradmin"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

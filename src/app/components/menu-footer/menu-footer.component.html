@@ -1,0 +1,30 @@
+<ion-footer >
+<div class="custom-background-red menu-footer" >
+  <ion-buttons slot="start" *ngIf="buttonChange==1 || buttonChange==2" >
+    <ion-button (click)="clickBack()" style="--padding-start: 20px!important;"  >
+        <ion-img 
+        class="custom-circle-button-back" 
+        src="../../../assets/img/arrow-left.png" style="padding: 2px 2px 2px 2px!important;">
+        </ion-img>
+    </ion-button>
+  </ion-buttons> 
+  <ion-buttons *ngIf="buttonChange==2"  >
+      <div class="border-menu-footer" *ngIf="buttonChange!=0 && buttonChange==2" ></div>
+    <ion-button (click)="goHome()">
+        <ion-img 
+        class="custom-circle-button-back" 
+        src="../../../assets/img/home.png" style="padding: 2px 2px 2px 2px!important;">
+        </ion-img>
+    </ion-button>
+  </ion-buttons >
+  <ion-buttons  *ngIf="buttonChange==0 || buttonChange==1 || buttonChange==2">
+      <div class="border-menu-footer" *ngIf="buttonChange!=0" ></div>
+      <ion-button (click)="Logout()" >
+          <ion-img 
+          class="custom-circle-button-back" 
+          src="../../../assets/img/logout.png" style="padding: 2px 1px 2px 3px!important; width: 98%;">
+          </ion-img>
+      </ion-button>
+  </ion-buttons>      
+</div>
+</ion-footer>  

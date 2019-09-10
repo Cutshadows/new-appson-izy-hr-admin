@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar class="custom-background-transparent">
+    <ion-text color="light" text-center>
+      <h4 class="custom-color-white custom-bold-text">MENÚ</h4>
+    </ion-text>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen="true" padding class="custom-background">
+  <div class="custom-padding-left-right center custom-white">
+    <div class="custom-font-lg custom-font-light custom-bold-text">
+      <div class="ctm-xxsm-b-margin-dashboard">Bienvenido</div>
+      <div *ngIf="userRoleLoggedItem">{{ userRoleLoggedItem.Name }}</div>
+    </div>
+    <ion-grid>
+      <ion-row class="custom-sm-margin" style="top:80!important">
+        <ion-col size="2" size-sm></ion-col>
+        <ion-col size="4" size-sm>
+          <div (click)="selectbranchGo()">
+            <ion-img [src]="attendance_view" class="custom-img-8 custom-margin-auto button-pulse pulse-button">
+            </ion-img>
+            <h6 class="custom-font-sm " style="font-family:'Quicksand_Light' !important">VISTA<br>ASISTENCIA</h6>
+            <!-- custom-bold-text  -->
+          </div>
+        </ion-col>
+        <ion-col size="4" size-sm>
+          <div (click)="mydevicesGo()">
+            <ion-img [src]="mydevices_view" class="custom-img-8 custom-margin-auto button-pulse pulse-button"></ion-img>
+            <h6 class="custom-font-sm" style="font-family:'Quicksand_Light' !important;width: 100%;">MIS<br>DISPOSITIVOS
+            </h6><!-- custom-bold-text -->
+          </div>
+        </ion-col>
+        <ion-col size="2" size-sm></ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
+<app-footer></app-footer>
+<app-menu-footer id="dashboardPage" [valCapa]="currentVal" (logout)="logout()">
+</app-menu-footer>

@@ -1,0 +1,47 @@
+<app-header 
+    titulo="INFORMACIÓN">
+  </app-header>
+  <ion-content fullscreen="true" padding class="custom-background">
+  <div class="custom-padding-left-right">
+    <div class="custom-m-t-md">
+      <ion-grid *ngIf="avEmployeesDetail">
+        <ion-row class="custom-card-e center">
+          <ion-col size="12">
+            <ion-img [src]="close" class="custom-img-2 custom-margin-auto custom-float-right" (click)="attendancedetailGo()"></ion-img>
+          </ion-col>
+          <ion-col size="12">
+              <ion-img [src]="info_gray" class="custom-img-7 custom-margin-auto"></ion-img>
+          </ion-col>          
+          <ion-col size="12" class="custom-s-margin ">
+            <div class=" custom-m-top-bottom-sm " style="font-weight: bold!important;">Datos</div>
+            <div class="custom-font-sm custom-m-t-sm">{{ avEmployeesDetail.Name }}</div>
+            <div class="custom-font-sm custom-m-t-sm">{{ avEmployeesDetail.ArrivedHour }} | {{ avEmployeesDetail.ExitHour }} {{ avEmployeesDetail.AllRule }}</div>
+            <div class="title"></div>
+          </ion-col>          
+          <ion-col size="12" class="custom-s-margin">
+            <div class=" custom-m-top-bottom-sm" style="font-weight: bold!important;">Sucursal</div>
+            <div *ngIf="newBranchLeftRight" class="custom-font-sm custom-m-t-sm">{{ newBranchLeftRight.Name }}</div>
+            <div class="title"></div>
+          </ion-col>
+          <ion-col size="12" class="custom-s-margin">
+            <div class=" custom-m-top-bottom-sm" style="font-weight: bold!important;">Departamento</div>
+            <div class="custom-font-sm custom-m-t-sm">{{ avEmployeesDetail.Department }}</div>
+            <div class="title"></div>
+          </ion-col>
+          <ion-col size="12" class="custom-s-margin custom-sm-b-margin">
+            <div class=" custom-m-top" style="font-weight: bold!important;">Grupo</div>
+            <div class="custom-font-sm custom-m-t-sm" *ngFor="let avEmployeesDetailGroup of avEmployeesDetail.AVEmployeeGroups">
+              {{ avEmployeesDetailGroup.GroupName }}
+            </div>
+          </ion-col>          
+        </ion-row>
+      </ion-grid>
+    </div>
+  </div>
+</ion-content>
+<app-footer *ngIf="currentVal!=3"></app-footer>
+<app-menu-footer 
+[valCapa]="currentVal"
+id="information" 
+(goInformation)='attendancedetailGo()' 
+(logout)="logout()"></app-menu-footer>

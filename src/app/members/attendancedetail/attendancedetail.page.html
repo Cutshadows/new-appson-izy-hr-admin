@@ -1,0 +1,103 @@
+<app-header 
+titulo="DETALLE">
+</app-header>
+<ion-content fullscreen="true" padding class="custom-background">
+  <div class="custom-padding-left-right">
+    <div class="custom-m-t-md custom-font-md center custom-white custom-bold-text">
+      <div>FECHA</div>
+      <div *ngIf="dateToProcessData" class="custom-m-t-sm">{{ dateToProcessData | date : "dd-MM-y" }}</div>
+      <div *ngIf="newBranchLeftRight" class="custom-m-t-sm">{{ newBranchLeftRight.Name }}</div>
+
+    </div>
+    <ion-grid>
+      <ion-row class="custom-sm-margin">
+        <ion-col size="12" no-padding *ngFor="let avEmployeesItem of avEmployeesData" class="custom-xsm-b-margin">
+          <ion-row>
+            <ion-col size="10" class="custom-card-back-text-e custom-border-left-sm">
+              <ion-row>
+                <ion-col size="12">
+                  <div class="custom-bold-text custom-m-top-bottom-sm">Nombre</div>
+                  <span class="custom-font-sm">{{ avEmployeesItem.Name }}</span>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="12" class="custom-m-t-sm">
+                  <span class="custom-font-sm">{{ avEmployeesItem.ArrivedHour }} | {{ avEmployeesItem.ExitHour }}
+                    {{ avEmployeesItem.AllRule }}</span>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+            <ion-col size="2" class="custom-card-back-icon-e custom-border-right-sm center">
+              <ion-row>
+                <ion-col size="12" no-padding (click)="informationGo(avEmployeesItem)">
+                  <img [src]="info_white" class="custom-img-4 custom-m-t-xsm button-pulse-detail pulse-button-detail">
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="12" no-padding class="custom-p-t-smd">
+                  <div *ngIf="avEmployeesItem.IsArrived == false">
+                    <img [src]="minus" class="custom-img-4">
+                  </div>
+                  <div
+                    *ngIf="avEmployeesItem.IsLate == false && avEmployeesItem.IsArrived == true && avEmployeesItem.PosibleExtraTime == false">
+                    <img [src]="done" class="custom-img-4">
+                  </div>
+                  <div
+                    *ngIf="avEmployeesItem.IsLate == true && avEmployeesItem.IsArrived == true && avEmployeesItem.PosibleExtraTime == false">
+                    <img [src]="close" class="custom-img-4">
+                  </div>
+                  <div *ngIf="avEmployeesItem.IsArrived == true && avEmployeesItem.PosibleExtraTime == true">
+                    <img [src]="triangle" class="custom-img-4">
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid *ngIf="!avEmployeesData">
+      <ion-row class="custom-sm-margin">
+        <ion-col size="12" no-padding *ngFor="let avEmployeesItem of [1,1,1,1,1,1,1]" class="custom-xsm-b-margin animated flash slow infinite">
+          <ion-row>
+            <ion-col size="10" class="custom-card-back-text-e custom-border-left-sm">
+              <ion-row>
+                <ion-col size="12">
+                  <div class="custom-bold-text custom-m-top-bottom-sm"><ion-skeleton-text width="60%"></ion-skeleton-text></div>
+                  <span class="custom-font-sm"><ion-skeleton-text width="80%"></ion-skeleton-text></span>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="12" class="custom-m-t-sm">
+                  <span class="custom-font-sm"><ion-skeleton-text width="90%"></ion-skeleton-text></span>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+            <ion-col size="2" class="custom-card-back-icon-e custom-border-right-sm center">
+              <ion-row>
+                <ion-col size="12" no-padding>
+                  <!-- <img [src]="info_white" class="custom-img-4 custom-m-t-xsm"> -->
+                  <ion-skeleton-text width="40%"></ion-skeleton-text>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="12" no-padding class="custom-p-t-smd">
+                  <div>
+                    <ion-skeleton-text width="40%"></ion-skeleton-text>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
+<app-footer *ngIf="currentVal!=3">
+</app-footer>
+<app-menu-footer 
+[valCapa]="currentVal"
+id="attendanceDetail" 
+(attendanceDetail)='attendanceviewGo()' 
+(logout)="logout()"></app-menu-footer>

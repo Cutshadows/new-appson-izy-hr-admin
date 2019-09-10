@@ -1,0 +1,48 @@
+/* .toolbar-background {
+    background: #fff;
+    border-color: transparent;
+  } */
+  /* .slide-zoom {
+    height: 100%;
+  }*/
+  :root {
+    --ion-safe-area-top: 20px;
+    --ion-safe-area-bottom: 22px;
+    --swiper-scrollbar:#ff0000!important;
+  }
+  .swiper-slide {
+    display: block;
+  }
+  ion-slide > h2 {
+    margin-top: 1rem;
+  }
+  ion-slide > img {
+    max-height: 50%;
+    max-width: 60%;
+    margin: 20px 0;
+  }
+  .slide-title {
+    margin-top: 1.8rem;
+    color:rgb(255, 255, 255);
+  }
+ .button-introduction{
+    //padding-right:80%!important;
+    padding-left:70%!important;
+  }
+  .slide-image {
+    max-height: 50%;
+    max-width: 60%;
+    margin: 18px 0;
+  }
+  b {
+    font-weight: 500;
+  }
+  p {
+    padding: 0 40px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgb(255, 255, 255);
+    b {
+      color: #000000;
+    }
+  }

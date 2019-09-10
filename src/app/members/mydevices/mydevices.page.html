@@ -1,0 +1,87 @@
+<app-header 
+    titulo="MIS DISPOSITIVOS" 
+    id="mydevices" 
+    (goDashboard)='dashboardGo()' 
+    (logout)="logout()" >
+  </app-header>
+<ion-content fullscreen="true" padding class="custom-background">
+  <div class="custom-padding-left-right">
+    <div>  
+      <ion-img [src]="mydevices_list" class="custom-img-7 custom-margin-auto custom-p-t-sm"></ion-img>       
+    </div>
+    <ion-grid>
+      <ion-row class="custom-sm-margin" *ngIf="data !=null" >
+        <ion-col size="12" class="ctm-xxsm-b-margin" *ngFor="let readersItem of data" >
+          <ion-row 
+            [ngClass]="whatClassIsItParent(readersItem.IsActive)"
+            class="ctm-bdr-l-r-rds-sm">
+            <ion-col size="8" class="custom-p-left-sm">
+              <div>
+                <div class="custom-bold-text custom-m-top-bottom-sm">Nombre</div>
+                <span class="custom-font-md">{{ readersItem.Name }}</span>
+              </div>                  
+              <div class="custom-p-t-xsm">
+                <div class="custom-bold-text custom-m-top-bottom-sm">IP</div>
+                <span class="custom-font-md">{{ readersItem.Ip }}</span>
+              </div>                                
+            </ion-col>
+            <ion-col size="4">
+              <div class="custom-p-t-md custom-float-right">
+                <div class="custom-bold-text custom-m-top-bottom-sm">ESTADO</div>
+                <span class="custom-font-md">{{ readersItem.IsActive ? 'Activo' : 'Inactivo'  }}</span>
+              </div>
+            </ion-col>              
+          </ion-row>
+          <ion-row class="custom-m-t-xmd" *ngFor="let readersChildItem of readersItem.childs">
+            <ion-col 
+              [ngClass]="whatClassIsItChild(readersChildItem.IsActive)"
+              size="10" 
+              offset="2" 
+              class="custom-p-left-xmd ctm-card-back-device-yellow ctm-bdr-l-r-rds-sm">
+              <div>
+                <div class="custom-bold-text custom-m-top-bottom-sm">Nombre</div>
+                <span class="custom-font-md">{{ readersChildItem.Name }}</span>
+              </div>                  
+              <div class="custom-p-t-xsm">
+                <div class="custom-bold-text custom-m-top-bottom-sm">IP</div>
+                <span class="custom-font-md">{{ readersChildItem.Ip }}</span>
+              </div>                                
+            </ion-col>            
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid  *ngIf="!data" >
+      <ion-row  class="custom-sm-margin">
+        <ion-col size="12" class="ctm-xxsm-b-margin animated flash slow infinite" *ngFor="let readersItem of [1,1,1,1,1]">
+          <ion-row
+          [ngClass]="whatClassIsItParent(readersItem.IsActive)" 
+            class="ctm-bdr-l-r-rds-sm">
+            <ion-col size="8" class="custom-p-left-sm">
+              <div>
+                <div class="custom-bold-text custom-m-top-bottom-sm"><ion-skeleton-text width="40%" ><!-- <div class="custom-bold-text custom-m-top-bottom-sm">Nombre</div> --></ion-skeleton-text></div>
+                <span class="custom-font-md"><ion-skeleton-text width="60%" ></ion-skeleton-text></span>
+              </div>                  
+              <div class="custom-p-t-xsm">
+                <div class="custom-bold-text custom-m-top-bottom-sm"><ion-skeleton-text width="30%" ></ion-skeleton-text></div>
+                <span class="custom-font-md"><ion-skeleton-text width="60%" ></ion-skeleton-text></span>
+              </div>                                
+            </ion-col>
+            <ion-col size="4">
+              <div class="custom-p-t-md custom-float-right">
+                <div class="custom-bold-text custom-m-top-bottom-sm"><ion-skeleton-text width="40%" ></ion-skeleton-text></div>
+                <span class="custom-font-md"><ion-skeleton-text width="40%" ></ion-skeleton-text></span>
+              </div>
+            </ion-col>              
+          </ion-row>
+        </ion-col> 
+      </ion-row>
+    </ion-grid>  
+  </div>  
+</ion-content>
+<app-footer *ngIf="currentVal!=2"></app-footer>
+<app-menu-footer 
+[valCapa]="currentVal"
+id="mydevices" 
+(goDashboard)='dashboardGo()' 
+(logout)="logout()"></app-menu-footer>

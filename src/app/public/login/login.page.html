@@ -1,0 +1,36 @@
+<ion-content padding class="custom-background">
+
+  <ion-text color="light" text-center>
+    <h4 class="custom-font-light custom-bold-text">BIENVENIDO A:</h4>
+  </ion-text>  
+
+  <div class="custom-padding-left-right "> <!-- custom-input-up -->
+
+    <ion-img [src]="logoUrl" class="custom-max-width"></ion-img>
+
+    <div class="custom-m-margin">
+
+      <div class="custom-border-bottom">
+        <ion-input type="email" placeholder="EMAIL" color="light" [(ngModel)]="adminMail"></ion-input>
+      </div>
+
+      <div margin-top class="custom-border-bottom">
+        <ion-input type="password"  placeholder="CONTRASEÑA" color="light" [(ngModel)]="adminPassword"></ion-input>
+      </div>
+      
+      <div margin-top class="custom-border-bottom">
+        <ion-input type="text" placeholder="CÓDIGO" color="light" [(ngModel)]="adminCode"></ion-input>
+      </div>      
+      
+    </div>
+
+    <ion-button (click)="adminLogin()" class="custom-margin" shape="round" expand="block" color="light" size="large">INGRESAR</ion-button>
+
+  </div>
+
+  <!-- <ion-button (click)="login()" expand="block">Login</ion-button> -->
+  <!-- <ion-button (click)="clearStorage()" expand="block">Clear Storage</ion-button> -->
+
+  <!-- <ion-button (click)="localNotificationTest()">Local Notification</ion-button> -->
+
+</ion-content>
