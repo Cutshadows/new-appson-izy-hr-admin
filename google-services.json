@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:91074365498:android:5c97bf197f7ec818",
+        "mobilesdk_app_id": "1:91074365498:android:9b4148713a8b5ed3a38d03",
         "android_client_info": {
-          "package_name": "com.izyhradmin"
+          "package_name": "com.izyhradmin.app"
         }
       },
       "oauth_client": [

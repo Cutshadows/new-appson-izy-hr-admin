@@ -21,6 +21,9 @@
     max-width: 60%;
     margin: 20px 0;
   }
+  ion-slides.swiper-container{
+    position:unset;
+  }
   .slide-title {
     margin-top: 1.8rem;
     color:rgb(255, 255, 255);
