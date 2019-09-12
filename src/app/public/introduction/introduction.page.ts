@@ -37,6 +37,7 @@ export class Introduction implements OnInit {
     initialSlide: 0,
     speed: 400
   };
+
   /* slidesOpts = {
     on: {
       beforeInit() {
