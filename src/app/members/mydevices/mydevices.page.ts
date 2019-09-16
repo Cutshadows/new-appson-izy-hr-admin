@@ -71,9 +71,6 @@ export class MydevicesPage implements OnInit {
       }
     })
   }
-  /* async noDataToast() {
-    this._functionAlert.MessageToast('Datos no Encontrados','middle',2000);
-  } */  
   dashboardGo() {
     let options: NativeTransitionOptions = {
       duration: 800

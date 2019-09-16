@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core"; //, Input, Output, EventEmitter
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions/ngx';
 import { Router } from '@angular/router';
 @Component({
