@@ -9,15 +9,15 @@ export class AuthLoginService {
   response:any;
   header: any = { 
     'headers': {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Access-Control-Allow-Origin':'*',
+      'Access-Control-Allow-Headers':'*'
     } 
   }
-    
     constructor(private http:HttpClient){ }
-  
     authLogin(adminCode, adminMail, adminPassword, fcmToken){
-      
-      let promesa= new Promise((resolve, reject)=>{
+      console.log("Token de FCM por el lado del auth services"+fcmToken)
+      let promesa= new Promise((resolve)=>{
         var url = 'https://'+adminCode+'.izytimecontrol.com/token';
       let params = 'grant_type=password&username='+adminMail+'&password='+adminPassword+'&fcmToken='+fcmToken
        this.http.post(url, params, this.header).subscribe(
@@ -34,6 +34,7 @@ export class AuthLoginService {
            
           }
        },(error)=>{
+         console.log("Error -- "+error);
         for (const key in error) {
           switch(key){
             case 'error':

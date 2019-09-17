@@ -53,7 +53,6 @@ export class LoginPage implements OnInit {
     
 
   ngOnInit() {
-
     this.storage.get(this.adminLoginResDetail).then((val) => {
       if(val != null && val != undefined) {
         this.adminMail = val['userName'];
@@ -62,14 +61,16 @@ export class LoginPage implements OnInit {
     this.getFcmToken();
   }
   getFcmToken() {
+    this.fcm.subscribeToTopic('activity');
     this.fcm.getToken().then(token => {
       this.storage.set('deviceFcmToken', token)
       this.fcmToken = token;
-    })
+    });
     this.fcm.onTokenRefresh().subscribe(token => {
       this.storage.set('deviceFcmToken', token)
       this.fcmToken = token
-    })    
+    });
+    this.fcm.unsubscribeFromTopic('activity');    
   }
 
   async adminLogin() {
@@ -92,6 +93,7 @@ export class LoginPage implements OnInit {
       });
       loadingElementMessage.present();
 
+      console.log("TOKEN ANTES DE INICIAR SESSION __"+this.fcmToken);
       this._authLogin.authLogin(this.adminCode, this.adminMail,this.adminPassword,this.fcmToken)
       .then((response) => {
        switch(response['status']){
