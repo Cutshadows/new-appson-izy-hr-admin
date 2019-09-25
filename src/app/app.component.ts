@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
 
-import { Platform} from '@ionic/angular';
+import { Platform, NavController} from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthenticationService } from './services/authentication.service';
-import { Router } from '@angular/router';
-
-import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions/ngx';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { IntroductionService } from './services/introduction.service';
@@ -25,9 +22,8 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private authService: AuthenticationService,
-    private router: Router,
-    private nativePageTransitions: NativePageTransitions,
     private fcm:FCM,
+    public nvCTRL:NavController,
     private storage: Storage,
     private localNotifications:LocalNotifications,
     private _tutorial:IntroductionService,
@@ -36,23 +32,24 @@ export class AppComponent {
   }
   initializeApp() {
      this.platform.ready().then(() => {
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
       this._tutorial.cargar_storage()
       .then(()=>{
         if(this._tutorial.introduccion.mostrar_tutorial){
-          let options: NativeTransitionOptions = {
-            duration: 800
-          }
-          this.nativePageTransitions.fade(options);
-          this.router.navigate(['Introduction']);
+          this.nvCTRL.navigateRoot(['Introduction']);
         }else{
-          let options: NativeTransitionOptions = {
-            duration: 800
-          }
-          this.nativePageTransitions.fade(options);
-          this.router.navigate(['login']);
+          this.nvCTRL.navigateRoot(['login']);
         }
       });
-     this.localNotifications.on('click').subscribe(res => {
+      
+      this.fcm.subscribeToTopic('activity');
+      this.fcm.getToken()
+      .then((token) => {
+        console.log("TOKEN SIN HACER NADA "+token);
+        this.storage.set('deviceFcmToken', token);
+      });
+    this.localNotifications.on('click').subscribe(res => {
       this.gotoDetail();
     })
     this.localNotifications.on('trigger').subscribe(res => {
@@ -67,11 +64,8 @@ export class AppComponent {
           Name: notification.nom_sucursal
         }
         this.storage.set('selectedBranchDataLocal', selectedBranchData);
-        let options: NativeTransitionOptions = {
-          duration: 800
-        }
-        this.nativePageTransitions.fade(options)
-        this.router.navigate(['members', 'attendanceview'])
+        this.nvCTRL.navigateRoot(['members', 'attendanceview']);
+        
       } else {
         let selectedBranchData = {
           Id: parseInt(notification.id_sucursal),
@@ -82,45 +76,32 @@ export class AppComponent {
       }
     });
     
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
-
-
-
+    this.fcm.onTokenRefresh().subscribe(token => {
+      this.storage.set('deviceFcmToken', token);
+    });
+    this.fcm.unsubscribeFromTopic('activity'); 
       this.authService.authenticationState.subscribe(state => {
         if(state) {
-          let options: NativeTransitionOptions = {
-            duration: 800
-          }
-          this.nativePageTransitions.fade(options);          
-          this.router.navigate(['members', 'dashboard']);
+          this.nvCTRL.navigateRoot(['members', 'dashboard']);
         } else {
-          let options: NativeTransitionOptions = {
-            duration: 800
-          }
-          this.nativePageTransitions.fade(options);
-          this.router.navigate(['login']);
+          this.nvCTRL.navigateRoot(['login']);
         }
       })
-
+      
     });
   }
   gotoDetail(){
-    let options: NativeTransitionOptions = {
-      duration: 800
-    }
-    this.nativePageTransitions.fade(options)
-    this.router.navigate(['members', 'attendanceview'])
+    this.nvCTRL.navigateRoot(['members', 'attendanceview']);
+
   }
-  localNotificationFcm(fcmTitle, fcmMessage) {
-    this.localNotifications.schedule({
-      title: fcmTitle,
-      text: fcmMessage,
-      vibrate:true,
-      led: { color: '#FF00FF', on: 500, off: 500 },
-      icon: this.logoUrl,
-      foreground: true,
-      sticky:true
-    })
-  }
+   localNotificationFcm(fcmTitle, fcmMessage) {
+     this.localNotifications.schedule({
+       title: fcmTitle,
+       text: fcmMessage,
+       vibrate:true,
+       led: { color: '#FF00FF', on: 500, off: 500 },
+       icon: this.logoUrl,
+       foreground: true,
+     })
+   }
 }

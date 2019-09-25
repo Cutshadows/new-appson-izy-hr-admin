@@ -16,7 +16,6 @@ export class AuthLoginService {
   }
     constructor(private http:HttpClient){ }
     authLogin(adminCode, adminMail, adminPassword, fcmToken){
-      console.log("Token de FCM por el lado del auth services"+fcmToken)
       let promesa= new Promise((resolve)=>{
         var url = 'https://'+adminCode+'.izytimecontrol.com/token';
       let params = 'grant_type=password&username='+adminMail+'&password='+adminPassword+'&fcmToken='+fcmToken

@@ -5,6 +5,9 @@
     <author email="cwerner@izytech.com" href="http://www.izytech.com">IZY TECH</author>
     <content src="index.html" />
     <access origin="*" />
+    <allow-navigation href="http://*/*" />
+    <allow-navigation href="https://*/*" />
+    <allow-navigation href="gap://ready" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
@@ -43,6 +46,9 @@
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
+        <allow-navigation href="http://*/*" />
+        <allow-navigation href="https://*/*" />
+        <allow-navigation href="gap://ready" />
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
         <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
         <icon height="40" src="resources/ios/icon/icon-40.png" width="40" />

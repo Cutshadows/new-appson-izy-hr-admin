@@ -5,7 +5,6 @@ import { AlertController, LoadingController, ToastController } from '@ionic/angu
 import { Observable } from 'rxjs';
 import { Storage } from '@ionic/storage';
 
-import { FCM } from '@ionic-native/fcm/ngx';
 import { FunctionsService } from '../../services/functions.service';
 import { AuthLoginService } from 'src/app/services/auth-login.service';
 @Component({
@@ -32,7 +31,7 @@ export class LoginPage implements OnInit {
   data: Observable<any>
   loadingElement: any
 
-  fcmToken: any
+  fcmToken:any;
 
   scheduled = []
 
@@ -46,31 +45,34 @@ export class LoginPage implements OnInit {
     private storage: Storage,
     public loadingController: LoadingController,
     public toastController: ToastController,
-    private fcm: FCM,
     private _functionAlert:FunctionsService,
     private _authLogin:AuthLoginService  
-  ) {}
+  ) {
+    this.cargarStorage().then((tokenD)=>{
+      this.fcmToken=String(tokenD);
+    });
+  }
     
 
   ngOnInit() {
     this.storage.get(this.adminLoginResDetail).then((val) => {
       if(val != null && val != undefined) {
         this.adminMail = val['userName'];
+        
       }
     });
-    this.getFcmToken();
+    
   }
-  getFcmToken() {
-    this.fcm.subscribeToTopic('activity');
-    this.fcm.getToken().then(token => {
-      this.storage.set('deviceFcmToken', token)
-      this.fcmToken = token;
-    });
-    this.fcm.onTokenRefresh().subscribe(token => {
-      this.storage.set('deviceFcmToken', token)
-      this.fcmToken = token
-    });
-    this.fcm.unsubscribeFromTopic('activity');    
+  cargarStorage(){
+    let promesa=new Promise((resolve)=>{
+      this.storage.ready().then(()=>{
+        this.storage.get('deviceFcmToken')
+        .then(token=>{
+          resolve(token);
+        });
+      });
+    })
+    return promesa;
   }
 
   async adminLogin() {
@@ -93,7 +95,6 @@ export class LoginPage implements OnInit {
       });
       loadingElementMessage.present();
 
-      console.log("TOKEN ANTES DE INICIAR SESSION __"+this.fcmToken);
       this._authLogin.authLogin(this.adminCode, this.adminMail,this.adminPassword,this.fcmToken)
       .then((response) => {
        switch(response['status']){
