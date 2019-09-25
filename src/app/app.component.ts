@@ -119,8 +119,7 @@ export class AppComponent {
       vibrate:true,
       led: { color: '#FF00FF', on: 500, off: 500 },
       icon: this.logoUrl,
-      foreground: true,
-      sticky:true
+      foreground: true
     })
   }
 }
