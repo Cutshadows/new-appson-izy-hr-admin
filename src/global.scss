@@ -359,7 +359,7 @@
 }
 
 .custom-back-color-red {
-  background-color: #ff3c3c;  
+  background-color: #ff0000;  
 }
 
 .custom-back-color-yellow {
@@ -459,15 +459,16 @@ ion-loading.transparent {
 }
 
 .border-menu-footer{
-  height:30px;
+  height: 35px;
+  margin-bottom: auto;
   width:0px;
   border-right-style: solid; 
   border-right-color: #ff5959!important; 
   border-right-width: 1px;
 }
 .menu-footer{
-  --padding-start: 30%;
-  --padding-end: 30%;
+  --padding-start: 52%;
+  --padding-end: 50%;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;
@@ -477,8 +478,8 @@ ion-loading.transparent {
   z-index: 99;
   padding-left: var(--padding-start);
   padding-right: var(--padding-end);
-  padding-top: var(--padding-top, 10px);
-  padding-bottom: var(--padding-bottom, 20px);
+  padding-top: var(--padding-top, 10px)!important;
+  padding-bottom: var(--padding-bottom, 1px)!important;
   display: -ms-flexbox;
   display: flex;
   position: relative;
@@ -489,8 +490,10 @@ ion-loading.transparent {
   -ms-flex-pack: justify;
   justify-content:center;/* space-evenly */
   width: 100%;
+  height:60px ;
   min-height: var(--min-height);
-  contain: content;
+  //contain: content;
+  contain: strict;
   overflow: hidden;
   z-index: 10;
   -webkit-box-sizing: border-box;
@@ -560,5 +563,4 @@ ion-loading.transparent {
   &:hover:before, &:hover:after {
     display: none;
   }
-
 }

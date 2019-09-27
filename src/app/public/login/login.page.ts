@@ -160,7 +160,7 @@ export class LoginPage implements OnInit {
     }else if(keepGoing == false) {
         this.alreadyExistCodeAlert();
     } else if(this.adminCode == undefined ||this.adminCode == '') {
-      this.requireAlert()
+      this.requireAlert();
     }
     else {      
       let loadingElementMessage = await this.loadingController.create({
@@ -218,8 +218,6 @@ export class LoginPage implements OnInit {
       this.requireAlert()   
     } else if(this.adminPassword == undefined) {
       this.requireAlert()
-    /* } else if(this.adminCode == undefined ||this.adminCode == '') {
-      this.requireAlert() */
     }
     else {
       let loadingElementMessage = await this.loadingController.create({

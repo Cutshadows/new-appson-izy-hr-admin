@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -12,11 +10,8 @@ export class AuthLoginService {
       'Content-Type': 'application/x-www-form-urlencoded'
     } 
   }
-    
     constructor(private http:HttpClient){ }
-  
     authLogin(adminCode, adminMail, adminPassword, fcmToken){
-      
       let promesa= new Promise((resolve, reject)=>{
         var url = 'https://'+adminCode+'.izytimecontrol.com/token';
       let params = 'grant_type=password&username='+adminMail+'&password='+adminPassword+'&fcmToken='+fcmToken
@@ -69,13 +64,10 @@ export class AuthLoginService {
        })
       });
       return promesa;
-      
     }
-
     ReloginAuth(liveAdminCode,access_token){
       let promesaCarga= new Promise((resolve, reject)=>{
         let url = 'https://'+liveAdminCode+'.izytimecontrol.com/api/userrole/GetUserRoleLogged';
-    
         let header = { 
           'headers': {
             'Content-Type': 'application/json',
@@ -103,9 +95,6 @@ export class AuthLoginService {
         });
       })
       return promesaCarga;
-      
-      
-    
     }
 
 
