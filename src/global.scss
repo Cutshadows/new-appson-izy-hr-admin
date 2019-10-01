@@ -78,7 +78,6 @@
   color: white;
 }
 
-// padding
 .custom-p-left {
   padding-left: 8px;
 }
@@ -341,7 +340,7 @@
 }
 
 .custom-back-color-red {
-  background-color: #ff3c3c;  
+  background-color: #ff0000;  
 }
 
 .custom-back-color-yellow {
@@ -352,7 +351,6 @@
   text-transform: uppercase;
 }
 
-//clase de las alertas
 .classAlert{
     --background:rgb(255, 255, 255);
     color:rgb(215, 36, 66)!important;
@@ -363,7 +361,6 @@
   color:rgb(255, 255, 255)!important;
   --ion-text-color: rgb(0, 0, 0);
 }
-//Clase de los toast
 .my-custom-toast{
     --background:rgb(248, 248, 248);
     --border-color:rgb(255, 255, 255);
@@ -440,45 +437,6 @@ ion-loading.transparent {
   animation-name: flash;
 }
 
-.border-menu-footer{
-  height:30px;
-  width:0px;
-  border-right-style: solid; 
-  border-right-color: #ff5959!important; 
-  border-right-width: 1px;
-}
-.menu-footer{
-  --padding-start: 30%;
-  --padding-end: 30%;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  z-index: 99;
-  padding-left: var(--padding-start);
-  padding-right: var(--padding-end);
-  padding-top: var(--padding-top, 10px);
-  padding-bottom: var(--padding-bottom, 20px);
-  display: -ms-flexbox;
-  display: flex;
-  position: relative;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -ms-flex-align: center;
-  align-items: center;
-  -ms-flex-pack: justify;
-  justify-content:center;/* space-evenly */
-  width: 100%;
-  min-height: var(--min-height);
-  contain: content;
-  overflow: hidden;
-  z-index: 10;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
 
 @keyframes pulse {
   0% {
@@ -494,7 +452,6 @@ ion-loading.transparent {
     opacity: 0;
   }
 }
-//EFECTO DE LOS BOTONES EN EL DASHBOARD
 .button-pulse {
   display: inline-flex;
   box-shadow: 0 3px 2px 0 rgba(0,0,0,0.1);

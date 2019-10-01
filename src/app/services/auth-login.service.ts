@@ -33,7 +33,6 @@ export class AuthLoginService {
            
           }
        },(error)=>{
-         console.log("Error -- "+error);
         for (const key in error) {
           switch(key){
             case 'error':

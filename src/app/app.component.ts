@@ -42,13 +42,6 @@ export class AppComponent {
           this.nvCTRL.navigateRoot(['login']);
         }
       });
-      
-      this.fcm.subscribeToTopic('activity');
-      this.fcm.getToken()
-      .then((token) => {
-        console.log("TOKEN SIN HACER NADA "+token);
-        this.storage.set('deviceFcmToken', token);
-      });
     this.localNotifications.on('click').subscribe(res => {
       this.gotoDetail();
     })
@@ -63,6 +56,7 @@ export class AppComponent {
           Id: parseInt(notification.id_sucursal),
           Name: notification.nom_sucursal
         }
+
         this.storage.set('selectedBranchDataLocal', selectedBranchData);
         this.nvCTRL.navigateRoot(['members', 'attendanceview']);
         
@@ -75,11 +69,6 @@ export class AppComponent {
         this.localNotificationFcm(this.fcmTitle, this.fcmMessage);
       }
     });
-    
-    this.fcm.onTokenRefresh().subscribe(token => {
-      this.storage.set('deviceFcmToken', token);
-    });
-    this.fcm.unsubscribeFromTopic('activity'); 
       this.authService.authenticationState.subscribe(state => {
         if(state) {
           this.nvCTRL.navigateRoot(['members', 'dashboard']);

@@ -1,31 +1,33 @@
 <ion-content padding class="custom-background">
-
   <ion-text color="light" text-center>
     <h4 class="custom-font-light custom-bold-text">BIENVENIDO A:</h4>
   </ion-text>  
-
   <div class="custom-padding-left-right ">
-
     <ion-img [src]="logoUrl" class="custom-max-width"></ion-img>
-
     <div class="custom-m-margin">
-
       <div class="custom-border-bottom">
         <ion-input type="email" placeholder="EMAIL" color="light" [(ngModel)]="adminMail"></ion-input>
       </div>
-
       <div margin-top class="custom-border-bottom">
         <ion-input type="password"  placeholder="CONTRASEÑA" color="light" [(ngModel)]="adminPassword"></ion-input>
       </div>
-      
-      <div margin-top class="custom-border-bottom">
-        <ion-input type="text" placeholder="CÓDIGO" color="light" [(ngModel)]="adminCode"></ion-input>
+      <div *ngIf="addNewCodeButton" margin-top class="custom-border-bottom">
+        <ion-input type="text" placeholder="CODIGO" color="light" [(ngModel)]="adminCode"></ion-input>
+      </div>
+      <div *ngIf="codeArray.length == 0" margin-top class="custom-border-bottom">
+        <ion-input type="text" placeholder="CODIGO" color="light" [(ngModel)]="adminCode"></ion-input>
+      </div>    
+      <div *ngIf="codeArray.length > 1 && !addNewCodeButton" margin-top class="custom-border-bottom">
+        <ion-select interface="popover" placeholder="CODIGO" [(ngModel)]="adminCode" class="custom-white custom-p-left">
+          <ion-select-option *ngFor="let code of codeArray" value="{{code}}" color="light">{{ code }}</ion-select-option>
+        </ion-select>
       </div>      
-      
     </div>
-
-    <ion-button (click)="adminLogin()" class="custom-margin" shape="round" expand="block" color="light" size="large">INGRESAR</ion-button>
-
+    <ion-button *ngIf="codeArray.length > 1 && !addNewCodeButton" (click)="loginWithSelectCode()" class="custom-s-margin" shape="round" expand="block" color="light" size="large">INGRESAR</ion-button>
+    <ion-button *ngIf="codeArray.length == 0" (click)="loginWithCode()" class="custom-s-margin" shape="round" fill="outline" expand="block" color="light" size="large">AGREGAR NUEVO CODIGO</ion-button>
+    <ion-button *ngIf="addNewCodeButton" (click)="loginWithCode()" class="custom-s-margin" shape="round" fill="outline" expand="block" color="light" size="large">AGREGAR NUEVO CODIGO</ion-button>
+    <ion-button *ngIf="addNewCodeButton" (click)="addNewCodeHideShow()" class="custom-s-margin" shape="round" fill="outline" expand="block" color="light" size="large">VOLVER</ion-button>    
+    <ion-button *ngIf="codeArray.length == 1 && !addNewCodeButton" (click)="loginWithPreviousCode()" class="custom-s-margin" shape="round" expand="block" color="light" size="large">INGRESAR</ion-button>
+    <ion-button *ngIf="codeArray.length >= 1 && !addNewCodeButton" (click)="addNewCodeHideShow()" class="custom-m-margin" shape="round" fill="outline" expand="block" color="light" size="large">AGREGAR NUEVO CODIGO</ion-button>
   </div>
-
 </ion-content>

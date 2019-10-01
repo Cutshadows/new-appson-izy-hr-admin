@@ -23,13 +23,13 @@ export class Introduction implements OnInit {
       image: "assets/img/introduction/ica-slidebox-img-2.png",
     },
     {
-      title: "Control en Tiempo Real",
-      description: "<b>IZY ADMIN, permite controlar en tiempo real las marcas de sus empleados.</b>",
+      title: "Control en tiempo real",
+      description: "<b>IZY ADMIN permite controlar en tiempo real las marcas de sus empleados.</b>",
       image: "assets/img/introduction/ica-slidebox-img-3.png",
     },
     {
-      title: "Control de Marcas",
-      description: "<b>Además, cada cierto tiempo se enviara una notificación con las personas que aún no marcan.</b>",
+      title: "Control de marcas",
+      description: "<b>Además cada cierto tiempo se enviara una notificación con las personas que aún no marcan.</b>",
       image: "assets/img/introduction/ica-slidebox-img-4.png",
     }
   ];

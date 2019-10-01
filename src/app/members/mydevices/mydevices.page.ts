@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions/ngx';
 import { Router } from '@angular/router';
-//STORAGE
 import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs';
 import { FunctionsService } from '../../services/functions.service';
