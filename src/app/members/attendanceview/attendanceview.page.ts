@@ -1,12 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { AuthenticationService } from "src/app/services/authentication.service";
-import {
-  NativePageTransitions,
-  NativeTransitionOptions
-} from "@ionic-native/native-page-transitions/ngx";
+import {NativePageTransitions, NativeTransitionOptions} from "@ionic-native/native-page-transitions/ngx";
 import { Router } from "@angular/router";
 
-import { LoadingController } from "@ionic/angular";
+import { LoadingController, IonSlides} from '@ionic/angular';
 import { Storage } from "@ionic/storage";
 import { FunctionsService } from "src/app/services/functions.service";
 import { ApiExpendService } from "src/app/services/api-expend.service";
@@ -17,6 +14,7 @@ import { ApiExpendService } from "src/app/services/api-expend.service";
   styleUrls: ["./attendanceview.page.scss"]
 })
 export class AttendanceviewPage implements OnInit {
+  @ViewChild('slidesAttendance')slide: IonSlides;
   calendar_img: string = "assets/img/calendar_img.png";
   adminLoginResDetail: string = "adminLoginResDetail";
   loadingElement: any;
@@ -39,7 +37,7 @@ export class AttendanceviewPage implements OnInit {
     private storage: Storage,
     public loadingController: LoadingController,
     private _functionAlert: FunctionsService,
-    private __apiexpendService: ApiExpendService
+    private __apiexpendService: ApiExpendService,
   ) {}
   ngOnInit() {
     this.storage.get(this.adminLoginResDetail).then(val => {
@@ -64,13 +62,10 @@ export class AttendanceviewPage implements OnInit {
         this.assistanceViewAppService();
       }
     });
+    
   }
   findedCurrentIndex(branchId) {
-    this.selectedBranchIndex = this.functiontofindIndexByKeyValue(
-      this.branchByUserResumeData,
-      "Id",
-      branchId
-    );
+    this.selectedBranchIndex = this.functiontofindIndexByKeyValue(this.branchByUserResumeData, "Id", branchId);
     if (this.branchByUserResumeData.length == this.selectedBranchIndex + 1) {
       this.rightCount = false;
     } else {
@@ -161,6 +156,7 @@ export class AttendanceviewPage implements OnInit {
         }
       });
   }
+  
   async oneSecondLoaderOn(avEmployeesData) {
     this.loadingElement = await this.loadingController.create({
       message: "Cargando Detalle...",

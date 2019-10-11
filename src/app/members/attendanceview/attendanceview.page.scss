@@ -53,7 +53,7 @@
   will-change: transform;
 
   &:hover {
-    background: darken(rgb(255, 60, 60), 1%);
+    //background: darken(rgba(255, 60, 60, 0.353), 1%);
     transform: translate3d(0, 0, 0);
   }
 
@@ -62,7 +62,10 @@
     transform: translate3d(0, 2px, 0);
   }
 }
-
+.slide-style{
+  display: block!important; 
+  padding-bottom: 150px!important;
+}
 .pulse-button-informe {
   position: relative;
 

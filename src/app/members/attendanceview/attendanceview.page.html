@@ -1,72 +1,78 @@
 <app-header titulo="VISTA ASISTENCIA">
 </app-header>
-<ion-content fullscreen="true" padding class="custom-background">
-  <div class="custom-padding-left-right">
-    <ion-grid>
-      <ion-row>
-        <ion-col size="1" offset="1">
-          <ion-icon *ngIf="leftCount" name="arrow-dropleft" color="light" size="large" (click)="leftAttendanceClick()"
-            class="custom-p-t-md button-pulse-calendar pulse-button-calendar"></ion-icon>
-        </ion-col>
-        <ion-col size="8">
-          <ion-img [src]="calendar_img" class="custom-img-7 custom-margin-auto"></ion-img>
-        </ion-col>
-        <ion-col size="1">
-          <ion-icon *ngIf="rightCount" name="arrow-dropright" color="light" size="large"
-            (click)="rightAttendanceClick()"
-            class="custom-p-t-md custom-p-r-sm button-pulse-calendar pulse-button-calendar"></ion-icon>
-        </ion-col>
-        <ion-col size="1"></ion-col>
-      </ion-row>
-    </ion-grid>
-    <div *ngIf="assistanceViewAppItems">
-      <div class="custom-font-md center custom-white custom-bold-text">
-        <div margin-top>FECHA</div>
-        <div class="custom-m-t-sm">{{ assistanceViewAppItems.events.DateToProcess | date : "dd-MM-y" }}</div>
-        <div *ngIf="newBranchLeftRight" class="custom-m-t-sm">
-          {{ newBranchLeftRight.Name }}
-        </div>
-      </div>
+<ion-content fullscreen="true" padding class="custom-background" >
+  
+    <div class="custom-padding-left-right">
       <ion-grid>
-        <ion-row class="custom-sm-margin center">
-          <ion-col size="12" margin-bottom *ngFor="let avRulesItem of assistanceViewAppItems.events.AVRules">
-            <ion-row (click)="oneSecondLoaderOn(avRulesItem.AVBranchs[0].AVEmployees)">
-              <ion-col size="5" no-padding>
-                <div class="custom-back-color-white custom-border-left custom-p-top-bottom-md">
-                  {{ avRulesItem.RuleName }}
-                </div>
-              </ion-col>
-              <ion-col size="5" no-padding>
-                <div *ngIf="avRulesItem.RuleName > currentHoursMinutes">
-                  <div
-                    class="custom-back-color-yellow custom-border-right custom-p-top-bottom-md button-pulse-informe pulse-button-informe">
-                    {{ avRulesItem.AVBranchs[0].TotalEmployeesArrived }} / {{ avRulesItem.AVBranchs[0].TotalEmployees }}
-                  </div>
-                </div>
-                <div *ngIf="avRulesItem.AVBranchs[0].IsFull == true && currentHoursMinutes > avRulesItem.RuleName">
-                  <div
-                    class="custom-back-color-green custom-border-right custom-p-top-bottom-md button-pulse-informe pulse-button-informe">
-                    {{ avRulesItem.AVBranchs[0].TotalEmployeesArrived }} / {{ avRulesItem.AVBranchs[0].TotalEmployees }}
-                  </div>
-                </div>
-                <div *ngIf="avRulesItem.AVBranchs[0].IsFull == false && currentHoursMinutes > avRulesItem.RuleName">
-                  <div
-                    class="custom-back-color-red custom-border-right custom-p-top-bottom-md custom-white button-pulse-informe pulse-button-informe">
-                    {{ avRulesItem.AVBranchs[0].TotalEmployeesArrived }} / {{ avRulesItem.AVBranchs[0].TotalEmployees }}
-                  </div>
-                </div>
-              </ion-col>
-              <ion-col size="2">
-                <div *ngIf="avRulesItem.AVBranchs[0].HasExtratime == true">
-                  <img [src]="triangle" class="custom-img-3">
-                </div>
-              </ion-col>
-            </ion-row>
+        <ion-row>
+          <ion-col size="1" offset="1">
+            <ion-icon *ngIf="leftCount" name="arrow-dropleft" color="light" size="large" 
+            (click)="leftAttendanceClick()"
+              class="custom-p-t-md button-pulse-calendar pulse-button-calendar"></ion-icon>
           </ion-col>
+          <ion-col size="8">
+            <ion-img [src]="calendar_img" class="custom-img-7 custom-margin-auto"></ion-img>
+          </ion-col>
+          <ion-col size="1">
+            <ion-icon *ngIf="rightCount" name="arrow-dropright" color="light" size="large"
+              (click)="rightAttendanceClick()"
+              class="custom-p-t-md custom-p-r-sm button-pulse-calendar pulse-button-calendar"></ion-icon>
+          </ion-col>
+          <ion-col size="1"></ion-col>
         </ion-row>
       </ion-grid>
+      <ion-slides  #slidesAttendance pager="false" (ionSlidePrevStart)="leftAttendanceClick()" (ionSlideNextStart)="rightAttendanceClick()">
+          <ion-slide class="slide-style" *ngFor="let cantTotal of branchByUserResumeData" >
+          <div *ngIf="assistanceViewAppItems" >
+            <div class="custom-font-md center custom-white custom-bold-text">
+              <div margin-top>FECHA</div>
+              <div class="custom-m-t-sm">{{ assistanceViewAppItems.events.DateToProcess | date : "dd-MM-y" }}</div>
+              <div *ngIf="newBranchLeftRight" class="custom-m-t-sm">
+                {{ newBranchLeftRight.Name }}
+              </div>
+            </div>
+            <ion-grid>
+              <ion-row class="custom-sm-margin center">
+                <ion-col size="12" margin-bottom *ngFor="let avRulesItem of assistanceViewAppItems.events.AVRules">
+                  <ion-row (click)="oneSecondLoaderOn(avRulesItem.AVBranchs[0].AVEmployees)">
+                    <ion-col size="5" no-padding>
+                      <div class="custom-back-color-white custom-border-left custom-p-top-bottom-md">
+                        {{ avRulesItem.RuleName }}
+                      </div>
+                    </ion-col>
+                    <ion-col size="5" no-padding>
+                      <div *ngIf="avRulesItem.RuleName > currentHoursMinutes">
+                        <div
+                          class="custom-back-color-yellow custom-border-right custom-p-top-bottom-md button-pulse-informe pulse-button-informe">
+                          {{ avRulesItem.AVBranchs[0].TotalEmployeesArrived }} / {{ avRulesItem.AVBranchs[0].TotalEmployees }}
+                        </div>
+                      </div>
+                      <div *ngIf="avRulesItem.AVBranchs[0].IsFull == true && currentHoursMinutes > avRulesItem.RuleName">
+                        <div
+                          class="custom-back-color-green custom-border-right custom-p-top-bottom-md button-pulse-informe pulse-button-informe">
+                          {{ avRulesItem.AVBranchs[0].TotalEmployeesArrived }} / {{ avRulesItem.AVBranchs[0].TotalEmployees }}
+                        </div>
+                      </div>
+                      <div *ngIf="avRulesItem.AVBranchs[0].IsFull == false && currentHoursMinutes > avRulesItem.RuleName">
+                        <div
+                          class="custom-back-color-red custom-border-right custom-p-top-bottom-md custom-white button-pulse-informe pulse-button-informe">
+                          {{ avRulesItem.AVBranchs[0].TotalEmployeesArrived }} / {{ avRulesItem.AVBranchs[0].TotalEmployees }}
+                        </div>
+                      </div>
+                    </ion-col>
+                    <ion-col size="2">
+                      <div *ngIf="avRulesItem.AVBranchs[0].HasExtratime == true">
+                        <img [src]="triangle" class="custom-img-3">
+                      </div>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+        </ion-slide>
+      </ion-slides>
     </div>
-  </div>
 </ion-content>
 <app-footer *ngIf="currentVal != 3"></app-footer>
 <app-menu-footer [valCapa]="currentVal" id="attendanceView" (attendanceView)='selectbranchGo()' (logout)="logout()">
