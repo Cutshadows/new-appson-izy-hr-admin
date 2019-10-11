@@ -4,8 +4,8 @@
    transition: background .3s, transform .3s, box-shadow .3s;
     will-change: transform;
    &:hover {
-     background: darken(rgba(0, 0, 0, 0),1%);
-     transform: translate3d(0, -2px, 0);
+      background: darken(rgba(0, 0, 0, 0),1%);
+      transform: translate3d(0, -2px, 0);
    }
    &:active {
      box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);

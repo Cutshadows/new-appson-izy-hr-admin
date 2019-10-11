@@ -50,7 +50,7 @@
   will-change: transform;
 
   &:hover {
-    background: darken(rgb(255, 60, 60), 1%);
+    //background: darken(rgb(255, 60, 60), 1%);
     transform:translate3d(0, 0, 0);
   }
 
@@ -58,6 +58,10 @@
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
     transform: translate3d(0, 2px, 0);
   }
+}
+.slide-style{
+  display:block!important;
+  padding-bottom: 150px!important;
 }
 
 .pulse-button-informe {
