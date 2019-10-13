@@ -97,7 +97,6 @@ export class LoginPage implements OnInit {
         cssClass: 'transparent',
       });
       loadingElementMessage.present();
-
       this._authLogin.authLogin(this.adminCode, this.adminMail,this.adminPassword,this.fcmToken)
       .then((response) => {
        switch(response['status']){
@@ -127,7 +126,16 @@ export class LoginPage implements OnInit {
            break;
          case '0':
             setTimeout(() => {
-              loadingElementMessage.dismiss()
+              loadingElementMessage.dismiss();
+            }, 500)
+            var responseData = response['response']
+            setTimeout(() => {
+              this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
+            }, 600)
+           break;
+           case '408':
+            setTimeout(() => {
+              loadingElementMessage.dismiss();
             }, 500)
             var responseData = response['response']
             setTimeout(() => {
@@ -169,9 +177,9 @@ export class LoginPage implements OnInit {
         cssClass: 'transparent',
       });
       loadingElementMessage.present();
-
       this._authLogin.authLogin(this.adminCode, this.adminMail,this.adminPassword,this.fcmToken)
       .then((response) => {
+        console.log("respuesta de la red baja  "+response['status']);
        switch(response['status']){
          case '200':
             var responseData = response['response']
@@ -201,7 +209,16 @@ export class LoginPage implements OnInit {
            break;
          case '0':
             setTimeout(() => {
-              loadingElementMessage.dismiss()
+              loadingElementMessage.dismiss();
+            }, 500)
+            var responseData = response['response']
+            setTimeout(() => {
+              this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
+            }, 600)
+           break;
+           case '408':
+            setTimeout(() => {
+              loadingElementMessage.dismiss();
             }, 500)
             var responseData = response['response']
             setTimeout(() => {
@@ -226,9 +243,9 @@ export class LoginPage implements OnInit {
         cssClass: 'transparent',
       });
       loadingElementMessage.present();
-
       this._authLogin.authLogin(this.userPreviousCode, this.adminMail,this.adminPassword,this.fcmToken)
       .then((response) => {
+        console.log("respuesta de la red baja  "+response['response']);
        switch(response['status']){
          case '200':
             var responseData = response['response']
@@ -252,7 +269,16 @@ export class LoginPage implements OnInit {
            break;
          case '0':
             setTimeout(() => {
-              loadingElementMessage.dismiss()
+              loadingElementMessage.dismiss();
+            }, 500)
+            var responseData = response['response']
+            setTimeout(() => {
+              this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
+            }, 600)
+           break;
+           case '408':
+            setTimeout(() => {
+              loadingElementMessage.dismiss();
             }, 500)
             var responseData = response['response']
             setTimeout(() => {
@@ -261,7 +287,7 @@ export class LoginPage implements OnInit {
            break;
 
        }
-      })
+      });
     }
   }
   addNewCodeHideShow(){

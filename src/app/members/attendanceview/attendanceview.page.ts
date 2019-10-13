@@ -153,6 +153,14 @@ export class AttendanceviewPage implements OnInit {
             }, 2000);
             this.logout();
             break;
+            case "408":
+            loadingElementMessage.dismiss();
+              this._functionAlert.requireAlert(
+                "Error, tiempo excedido",
+                "De Acuerdo"
+              );
+            this.selectbranchGo();
+            break;
         }
       });
   }
