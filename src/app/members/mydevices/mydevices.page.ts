@@ -6,6 +6,7 @@ import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs';
 import { FunctionsService } from '../../services/functions.service';
 import { ApiExpendService } from 'src/app/services/api-expend.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-mydevices',
@@ -32,7 +33,8 @@ export class MydevicesPage implements OnInit {
     private router: Router,
     private storage: Storage,
     private _functionAlert:FunctionsService,
-    private _apiexpendService:ApiExpendService
+    private _apiexpendService:ApiExpendService,
+    private toastController:ToastController
   ) { }
   ngOnInit() {
     
@@ -49,17 +51,26 @@ export class MydevicesPage implements OnInit {
       }
     })
   }
-  getReadersService() {
-    this._functionAlert.MessageToast('Cargando...', 'top',1000);
+  async getReadersService() {
+    //this._functionAlert.MessageToast('Cargando...', 'top',1000);
+    const toast= await this.toastController.create({
+      message:'Cargando...',
+      position:'top',
+      cssClass:'my-custom-toast'
+    });
+    toast.present();
     this._apiexpendService.readService(this.liveAdminCode, this.access_token)
     .then((response) => {
       switch(response['status']){
         case '200':
+            toast.dismiss();
             this.readersItems = response['response']
             this.data=this.readersItems;
           break;
          case '404':
+           toast.dismiss();
           this._functionAlert.MessageToast('Informacion no Encontrada...', 'middle',1000);
+          this.dashboardGo();
           break;
         case '0':
           setTimeout(() => {
@@ -67,6 +78,12 @@ export class MydevicesPage implements OnInit {
           }, 2000);
             this.logout()
           break;
+        case '408':
+            setTimeout(() => {
+              this._functionAlert.requireAlert('Error de Servicio', 'De Acuerdo');
+            }, 2000);
+              this.logout()
+            break;
       }
     })
   }

@@ -113,9 +113,9 @@ export class LoginPage implements OnInit {
       .then((response) => {
        switch(response['status']){
          case '200':
-            var responseData = response['response']
+            var responseData = response['response'];
             setTimeout(() => {
-              loadingElementMessage.dismiss()
+              loadingElementMessage.dismiss();
             }, 500)
               if(responseData['access_token']) {
                 this.storage.set(this.adminLoginResDetail, responseData);
@@ -127,24 +127,32 @@ export class LoginPage implements OnInit {
            break;
          case '400':
               setTimeout(() => {
-                loadingElementMessage.dismiss()
+                loadingElementMessage.dismiss();
               }, 500)
               var responseData = response['response']
               setTimeout(() => {
                 this._functionAlert.requireAlert(responseData['error_description'], 'De Acuerdo');
               }, 600)
               this.resetInput()
-
            break;
-         case '0':
-            setTimeout(() => {
-              loadingElementMessage.dismiss()
-            }, 500)
-            var responseData = response['response']
-            setTimeout(() => {
-              this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
-            }, 600)
-           break;
+           case '0':
+              setTimeout(() => {
+                loadingElementMessage.dismiss();
+              }, 500)
+              var responseData = response['response']
+              setTimeout(() => {
+                this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
+              }, 600)
+             break;
+          case '408':
+             setTimeout(() => {
+               loadingElementMessage.dismiss()
+             }, 500)
+             var responseData = response['response']
+             setTimeout(() => {
+               this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
+             }, 600)
+            break;
 
        }
       })
@@ -210,15 +218,24 @@ export class LoginPage implements OnInit {
               this.resetInput()
 
            break;
-         case '0':
-            setTimeout(() => {
-              loadingElementMessage.dismiss()
-            }, 500)
-            var responseData = response['response']
-            setTimeout(() => {
-              this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
-            }, 600)
-           break;
+           case '0':
+              setTimeout(() => {
+                loadingElementMessage.dismiss()
+              }, 500)
+              var responseData = response['response']
+              setTimeout(() => {
+                this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
+              }, 600)
+             break;
+             case '408':
+             setTimeout(() => {
+               loadingElementMessage.dismiss()
+             }, 500)
+             var responseData = response['response']
+             setTimeout(() => {
+               this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
+             }, 600)
+            break;
 
        }
       })
@@ -262,6 +279,15 @@ export class LoginPage implements OnInit {
 
            break;
          case '0':
+            setTimeout(() => {
+              loadingElementMessage.dismiss()
+            }, 500)
+            var responseData = response['response']
+            setTimeout(() => {
+              this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
+            }, 600)
+           break;
+           case '408':
             setTimeout(() => {
               loadingElementMessage.dismiss()
             }, 500)

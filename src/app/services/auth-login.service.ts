@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {timeout, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 
 @Injectable({
@@ -19,20 +21,31 @@ export class AuthLoginService {
       let promesa= new Promise((resolve)=>{
         var url = 'https://'+adminCode+'.izytimecontrol.com/token';
       let params = 'grant_type=password&username='+adminMail+'&password='+adminPassword+'&fcmToken='+fcmToken
-       this.http.post(url, params, this.header).subscribe(
+       this.http.post(url, params, this.header).pipe(
+         timeout(2500),
+         catchError(
+           error=>of(408)
+         )
+       ).subscribe(
          (response)=>{
           let jsonResponse={
             status,
             response,
           }
           if(response){
-            jsonResponse.status='200';
-            jsonResponse.response=response;
-            this.response=jsonResponse;
-            resolve(this.response);
-           
+            if(response==408){
+              jsonResponse.status='408';
+              jsonResponse.response=response;
+              this.response=jsonResponse;
+              resolve(this.response);
+            }else{
+              jsonResponse.status='200';
+              jsonResponse.response=response;
+              this.response=jsonResponse;
+              resolve(this.response);
+            }
           }
-       },(error)=>{
+       },(error:HttpErrorResponse)=>{
         for (const key in error) {
           switch(key){
             case 'error':
@@ -72,7 +85,7 @@ export class AuthLoginService {
     }
 
     ReloginAuth(liveAdminCode,access_token){
-      let promesaCarga= new Promise((resolve, reject)=>{
+      let promesaCarga= new Promise((resolve)=>{
         let url = 'https://'+liveAdminCode+'.izytimecontrol.com/api/userrole/GetUserRoleLogged';
     
         let header = { 
@@ -81,18 +94,29 @@ export class AuthLoginService {
             'Authorization': 'Bearer '+access_token
           } 
         }
-        this.http.get(url,header).subscribe((response)=>{
+        this.http.get(url,header).pipe(
+          timeout(2500),
+          catchError(error=>of(408)
+          )
+        ).subscribe((response)=>{
           let jsonResponse={
             status,
             response,
           }
           if(response){
-            jsonResponse.status='200';
+            if(response==408){
+              jsonResponse.status='408';
+              jsonResponse.response=response;
+              this.response=jsonResponse;
+              resolve(this.response);
+            }else{
+              jsonResponse.status='200';
             jsonResponse.response=response;
             this.response=jsonResponse;
             resolve(this.response);
+            }
           }
-        },()=>{
+        },(error:HttpErrorResponse)=>{
           let jsonResponse={
             status,
           }
