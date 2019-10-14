@@ -23,7 +23,8 @@ import { FunctionsService } from './services/functions.service';
 import { AuthLoginService } from './services/auth-login.service';
 import { IntroductionService } from './services/introduction.service';
 
-import {FingerprintAIO} from '@ionic-native/fingerprint-aio';
+//import {FingerprintAIO} from '@ionic-native/fingerprint-aio';
+
 
 
 @NgModule({
