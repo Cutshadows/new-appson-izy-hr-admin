@@ -8,6 +8,10 @@ import { Storage } from '@ionic/storage';
 import { FunctionsService } from '../../services/functions.service';
 import { AuthLoginService } from 'src/app/services/auth-login.service';
 import { FCM } from '@ionic-native/fcm/ngx';
+//ingresando finger print 
+import { FingerprintAIO, FingerprintOptions } from '@ionic-native/fingerprint-aio/ngx';
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -46,7 +50,8 @@ export class LoginPage implements OnInit {
     public toastController: ToastController,
     private _functionAlert:FunctionsService,
     private _authLogin:AuthLoginService,
-    private fcm:FCM
+    private fcm:FCM,
+    private fingerPrint:FingerprintAIO
   ) {
   }
     
