@@ -79,6 +79,14 @@ export class DashboardPage implements OnInit {
             );
             this.logout();
             break;
+            case "408":
+              loadingElementMessage.dismiss();
+              this._functionAlert.requireAlert(
+                "Error, Sesion Expiro",
+                "De acuerdo"
+              );
+              this.logout();
+              break;
         }
       });
   }
