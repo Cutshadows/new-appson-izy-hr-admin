@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { HttpClient } from '@angular/common/http';
-import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController, Platform } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Storage } from '@ionic/storage';
 
@@ -9,7 +9,7 @@ import { FunctionsService } from '../../services/functions.service';
 import { AuthLoginService } from 'src/app/services/auth-login.service';
 import { FCM } from '@ionic-native/fcm/ngx';
 //ingresando finger print 
-import { FingerprintAIO, FingerprintOptions } from '@ionic-native/fingerprint-aio/ngx';
+import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 
 
 @Component({
@@ -51,12 +51,23 @@ export class LoginPage implements OnInit {
     private _functionAlert:FunctionsService,
     private _authLogin:AuthLoginService,
     private fcm:FCM,
-    private fingerPrint:FingerprintAIO
+    private fingerPrint:FingerprintAIO,
+    private plt:Platform
   ) {
+  
   }
     
 
   ngOnInit() {
+    //this.plt.ready().then(()=>{
+      //if(this.plt.is('iphone')){
+        console.log("por que paso por aqui???");
+        this.questionFinger();
+      //}else{
+        //alert('no tiene el dispositivo necesario para usar autentificacion por huella');
+      //}
+    //});
+
     this.storage.get(this.adminLoginResDetail).then((val) => {
       if(val != null && val != undefined) {
         this.adminMail = val['userName'];
@@ -81,6 +92,7 @@ export class LoginPage implements OnInit {
       }
     });
     this.getFcmToken();
+    
   }
   getFcmToken() {
     this.fcm.getToken().then(token => {
@@ -158,7 +170,6 @@ export class LoginPage implements OnInit {
                this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
              }, 600)
             break;
-
        }
       })
      }
@@ -221,13 +232,12 @@ export class LoginPage implements OnInit {
                 this._functionAlert.requireAlert(responseData['error_description'], 'De Acuerdo');
               }, 600)
               this.resetInput()
-
            break;
            case '0':
               setTimeout(() => {
-                loadingElementMessage.dismiss()
+                loadingElementMessage.dismiss();
               }, 500)
-              var responseData = response['response']
+              var responseData = response['response'];
               setTimeout(() => {
                 this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
               }, 600)
@@ -331,7 +341,32 @@ export class LoginPage implements OnInit {
   }
   badRequestAlert() {
     this._functionAlert.requireAlert('Error de servicio','De acuerdo');
-  }  
+  }
+  async questionFinger(){
+    const alert=await this.alertController.create({
+      header:'Autentificación por huella',
+      message:'¿Desea utilizar <strong>autentificacion por huella </strong> en el futuro?',
+      buttons:[
+        {
+          text:'SI',
+          role:'true',
+          cssClass:'primary',
+          
+          handler:(role) => {
+              console.log('CONFIRMA TODO '+role);
+          }
+        },{
+          text:'NO',
+          //role:'false',
+          cssClass:'secondary',
+          handler:(roblale)=>{
+              console.log('confirm '+roblale);
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
   clearStorage() {
     this.storage.clear().then(() => {
     })    

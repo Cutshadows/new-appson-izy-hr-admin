@@ -8,6 +8,8 @@ import { FCM } from '@ionic-native/fcm/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { IntroductionService } from './services/introduction.service';
 import { Storage } from '@ionic/storage';
+import { FingerprintAIO, FingerprintOptions } from '@ionic-native/fingerprint-aio/ngx';
+
 
 @Component({
   selector: 'app-root',
@@ -27,6 +29,7 @@ export class AppComponent {
     private storage: Storage,
     private localNotifications:LocalNotifications,
     private _tutorial:IntroductionService,
+    private fingerprint:FingerprintAIO
   ) {
     this.initializeApp();
   }
