@@ -53,21 +53,10 @@ export class LoginPage implements OnInit {
     private fcm:FCM,
     private fingerPrint:FingerprintAIO,
     private plt:Platform
-  ) {
-  
-  }
+  ) {  }
     
 
   ngOnInit() {
-    //this.plt.ready().then(()=>{
-      //if(this.plt.is('iphone')){
-        console.log("por que paso por aqui???");
-        this.questionFinger();
-      //}else{
-        //alert('no tiene el dispositivo necesario para usar autentificacion por huella');
-      //}
-    //});
-
     this.storage.get(this.adminLoginResDetail).then((val) => {
       if(val != null && val != undefined) {
         this.adminMail = val['userName'];
@@ -135,11 +124,88 @@ export class LoginPage implements OnInit {
               loadingElementMessage.dismiss();
             }, 500)
               if(responseData['access_token']) {
-                this.storage.set(this.adminLoginResDetail, responseData);
-                this.storage.set('liveAdminCode', this.adminCode);
-                this.authService.login();
-                this.resetInput();
-                loadingElementMessage.dismiss();
+                // this.storage.set(this.adminLoginResDetail, responseData);
+                // this.storage.set('liveAdminCode', this.adminCode);
+                // this.authService.login();
+                // this.resetInput();
+                // loadingElementMessage.dismiss();
+                if(this.plt.is('cordova')){
+                  this.fingerPrint.isAvailable().then(async typeAuth=>{
+                    switch(typeAuth){
+                      case 'finger':
+                                  this.fingerPrint.show({
+                                    clientId: 'Autentificacion-huella',
+                                    localizedFallbackTitle: 'Usar Pin', 
+                                    localizedReason: 'Para continuar, auntentificar con huella' 
+                                  }).then((resultFingerAuth:any)=>{
+                                    if(resultFingerAuth=='Success'){
+                                      this.storage.set(this.adminLoginResDetail, responseData);
+                                      this.storage.set('liveAdminCode', this.adminCode);
+                                      this.authService.login();
+                                      this.resetInput();
+                                      loadingElementMessage.dismiss();      
+                                    }
+                                  }).catch((error:any)=>{
+                                    this._functionAlert.MessageToast('Autentificacion no valida, intente mas tarde', 'top', 2000);
+                                    this.resetInput();
+                                  });
+                        break;
+                      case 'face':
+                                  this.fingerPrint.show({
+                                    clientId: 'Reconocimiento-facial',
+                                    localizedFallbackTitle: 'Usar Pin',
+                                    localizedReason: 'Para continuar, auntentificar con reconocimiento facial'
+                                  }).then((resultFingerAuth:any)=>{
+                                    if(resultFingerAuth=='Success'){
+                                      this.storage.set(this.adminLoginResDetail, responseData);
+                                      this.storage.set('liveAdminCode', this.adminCode);
+                                      this.authService.login();
+                                      this.resetInput();
+                                      loadingElementMessage.dismiss();  
+                                    }
+                                  }).catch((error:any)=>{
+                                    this._functionAlert.MessageToast('Autentificacion no valida, intente mas tarde', 'top', 2000);
+                                    this.resetInput();
+                                  });
+                        break;
+                    }
+                  }).catch(async (error:any)=>{
+                    for (const key in error) {
+                      if (error.hasOwnProperty(key)) {
+                        const element = error[key];
+                        if(element=="Biometry is not available in passcode lockout" || element==8){
+                           this._functionAlert.requireAlert("Identificación incorrecta", 'De acuerdo');
+                        }else if(element=='No identities are enrolled.'|| element==7){
+                              const alert=await this.alertController.create({
+                                header:'Sin huella',
+                                message:'¿Desea continuar <strong>sin registrar metodo de autentificación</strong>?',
+                                cssClass:'classAlert',
+                                buttons:[
+                                  {
+                                    text:'SI',
+                                    cssClass:'cssAlert',
+                                    handler:() => {
+                                      this.storage.set(this.adminLoginResDetail, responseData);
+                                      this.storage.set('liveAdminCode', this.adminCode);
+                                      this.authService.login();
+                                      this.resetInput();
+                                      loadingElementMessage.dismiss();    
+                                    }
+                                  },{
+                                    text:'NO',
+                                    cssClass:'cssAlert',
+                                    handler:()=>{
+                                      this.resetInput();
+                                    }
+                                  }
+                                ]
+                              });
+                              await alert.present();
+                        }
+                      }
+                    }
+                  })
+                }
             }
            break;
          case '400':
@@ -204,7 +270,6 @@ export class LoginPage implements OnInit {
         cssClass: 'transparent',
       });
       loadingElementMessage.present();
-
       this._authLogin.authLogin(this.adminCode, this.adminMail,this.adminPassword,this.fcmToken)
       .then((response) => {
        switch(response['status']){
@@ -214,13 +279,90 @@ export class LoginPage implements OnInit {
               loadingElementMessage.dismiss()
             }, 500)
               if(responseData['access_token']) {
-                this.storage.set(this.adminLoginResDetail, responseData);
-                this.codeArray.push(this.codeLowerCase);
-                this.storage.set('adminCode', this.codeLowerCase);          
-                this.storage.set('liveAdminCode', this.codeLowerCase);
-                this.storage.set('userCode', this.codeArray);       
-                this.authService.login();
-                this.resetInput();
+                if(this.plt.is('cordova')){
+                  this.fingerPrint.isAvailable().then(async typeAuth=>{
+                    switch(typeAuth){
+                      case 'finger':
+                                  this.fingerPrint.show({
+                                    clientId: 'Autentificacion-huella',
+                                    localizedFallbackTitle: 'Usar Pin', 
+                                    localizedReason: 'Para continuar, auntentificar con huella' 
+                                  }).then((resultFingerAuth:any)=>{
+                                    if(resultFingerAuth=='Success'){
+                                      this.storage.set(this.adminLoginResDetail, responseData);
+                                      this.codeArray.push(this.codeLowerCase);
+                                      this.storage.set('adminCode', this.codeLowerCase);          
+                                      this.storage.set('liveAdminCode', this.codeLowerCase);
+                                      this.storage.set('userCode', this.codeArray);       
+                                      this.authService.login();
+                                      this.resetInput();
+                                    }
+                                  }).catch((error:any)=>{
+                                    this._functionAlert.MessageToast('Autentificacion no valida, intente mas tarde', 'top', 2000);
+                                    this.resetInput();
+                                  });
+                        break;
+                      case 'face':
+                                  this.fingerPrint.show({
+                                    clientId: 'Reconocimiento-facial',
+                                    localizedFallbackTitle: 'Usar Pin',
+                                    localizedReason: 'Para continuar, auntentificar con reconocimiento facial'
+                                  }).then((resultFingerAuth:any)=>{
+                                    if(resultFingerAuth=='Success'){
+                                      this.storage.set(this.adminLoginResDetail, responseData);
+                                      this.codeArray.push(this.codeLowerCase);
+                                      this.storage.set('adminCode', this.codeLowerCase);          
+                                      this.storage.set('liveAdminCode', this.codeLowerCase);
+                                      this.storage.set('userCode', this.codeArray);
+
+                                      this.authService.login();
+                                      this.resetInput();
+                                    }
+                                  }).catch((error:any)=>{
+                                    this._functionAlert.MessageToast('Autentificacion no valida, intente mas tarde', 'top', 2000);
+                                    this.resetInput();
+                                  });
+                        break;
+                    }
+                  }).catch(async (error:any)=>{
+                    for (const key in error) {
+                      if (error.hasOwnProperty(key)) {
+                        const element = error[key];
+                        if(element=="Biometry is not available in passcode lockout" || element==8){
+                           this._functionAlert.requireAlert("Identificación incorrecta", 'De acuerdo');
+                        }else if(element=='No identities are enrolled.'|| element==7){
+                              const alert=await this.alertController.create({
+                                header:'Sin huella',
+                                message:'¿Desea continuar <strong>sin registrar metodo de autentificación</strong>?',
+                                cssClass:'classAlert',
+                                buttons:[
+                                  {
+                                    text:'SI',
+                                    cssClass:'cssAlert',
+                                    handler:() => {
+                                      this.storage.set(this.adminLoginResDetail, responseData);
+                                      this.codeArray.push(this.codeLowerCase);
+                                      this.storage.set('adminCode', this.codeLowerCase);          
+                                      this.storage.set('liveAdminCode', this.codeLowerCase);
+                                      this.storage.set('userCode', this.codeArray);       
+                                      this.authService.login();
+                                      this.resetInput();
+                                    }
+                                  },{
+                                    text:'NO',
+                                    cssClass:'cssAlert',
+                                    handler:()=>{
+                                      this.resetInput();
+                                    }
+                                  }
+                                ]
+                              });
+                              await alert.present();
+                        }
+                      }
+                    }
+                  })
+                }
             }
            break;
          case '400':
@@ -276,10 +418,84 @@ export class LoginPage implements OnInit {
          case '200':
             var responseData = response['response']
               if(responseData['access_token']) {
-                this.storage.set(this.adminLoginResDetail, responseData);
-                this.authService.login();
-                this.resetInput();
-                loadingElementMessage.dismiss();
+                // this.storage.set(this.adminLoginResDetail, responseData);
+                // this.authService.login();
+                // this.resetInput();
+                // loadingElementMessage.dismiss();
+                if(this.plt.is('cordova')){
+                  this.fingerPrint.isAvailable().then(async typeAuth=>{
+                    switch(typeAuth){
+                      case 'finger':
+                                  this.fingerPrint.show({
+                                    clientId: 'Autentificacion-huella',
+                                    localizedFallbackTitle: 'Usar Pin', 
+                                    localizedReason: 'Para continuar, auntentificar con huella' 
+                                  }).then((resultFingerAuth:any)=>{
+                                    if(resultFingerAuth=='Success'){
+                                      this.storage.set(this.adminLoginResDetail, responseData);
+                                      this.authService.login();
+                                      this.resetInput();
+                                      loadingElementMessage.dismiss();
+                                    }
+                                  }).catch((error:any)=>{
+                                    this._functionAlert.MessageToast('Autentificacion no valida, intente mas tarde', 'top', 2000);
+                                    this.resetInput();
+                                  });
+                        break;
+                      case 'face':
+                                  this.fingerPrint.show({
+                                    clientId: 'Reconocimiento-facial',
+                                    localizedFallbackTitle: 'Usar Pin',
+                                    localizedReason: 'Para continuar, auntentificar con reconocimiento facial'
+                                  }).then((resultFingerAuth:any)=>{
+                                    if(resultFingerAuth=='Success'){
+                                      this.storage.set(this.adminLoginResDetail, responseData);
+                                      this.authService.login();
+                                      this.resetInput();
+                                      loadingElementMessage.dismiss();
+                                    }
+                                  }).catch((error:any)=>{
+                                    this._functionAlert.MessageToast('Autentificacion no valida, intente mas tarde', 'top', 2000);
+                                    this.resetInput();
+                                  });
+                        break;
+                    }
+                  }).catch(async (error:any)=>{
+                    for (const key in error) {
+                      if (error.hasOwnProperty(key)) {
+                        const element = error[key];
+                        if(element=="Biometry is not available in passcode lockout" || element==8){
+                           this._functionAlert.requireAlert("Identificación incorrecta", 'De acuerdo');
+                        }else if(element=='No identities are enrolled.'|| element==7){
+                              const alert=await this.alertController.create({
+                                header:'Sin huella',
+                                message:'¿Desea continuar <strong>sin registrar metodo de autentificación</strong>?',
+                                cssClass:'classAlert',
+                                buttons:[
+                                  {
+                                    text:'SI',
+                                    cssClass:'cssAlert',
+                                    handler:() => {
+                                      this.storage.set(this.adminLoginResDetail, responseData);
+                                      this.authService.login();
+                                      this.resetInput();
+                                      loadingElementMessage.dismiss();
+                                    }
+                                  },{
+                                    text:'NO',
+                                    cssClass:'cssAlert',
+                                    handler:()=>{
+                                      this.resetInput();
+                                    }
+                                  }
+                                ]
+                              });
+                              await alert.present();
+                        }
+                      }
+                    }
+                  })
+                }
             }
            break;
          case '400':
@@ -342,31 +558,32 @@ export class LoginPage implements OnInit {
   badRequestAlert() {
     this._functionAlert.requireAlert('Error de servicio','De acuerdo');
   }
-  async questionFinger(){
-    const alert=await this.alertController.create({
-      header:'Autentificación por huella',
-      message:'¿Desea utilizar <strong>autentificacion por huella </strong> en el futuro?',
-      buttons:[
-        {
-          text:'SI',
-          role:'true',
-          cssClass:'primary',
-          
-          handler:(role) => {
-              console.log('CONFIRMA TODO '+role);
-          }
-        },{
-          text:'NO',
-          //role:'false',
-          cssClass:'secondary',
-          handler:(roblale)=>{
-              console.log('confirm '+roblale);
-          }
-        }
-      ]
-    });
-    await alert.present();
-  }
+  // async questionFinger(){
+  //   const alert=await this.alertController.create({
+  //     header:'Autentificación por huella',
+  //     message:'¿Desea utilizar <strong>autentificacion por huella </strong> en el futuro?',
+  //     buttons:[
+  //       {
+  //         text:'SI',
+  //         role:'true',
+  //         cssClass:'primary',
+  //         handler:(role) => {
+
+
+  //             console.log('CONFIRMA TODO '+role);
+  //         }
+  //       },{
+  //         text:'NO',
+  //         //role:'false',
+  //         cssClass:'secondary',
+  //         handler:(roblale)=>{
+  //             console.log('confirm '+roblale);
+  //         }
+  //       }
+  //     ]
+  //   });
+  //   await alert.present();
+  // }
   clearStorage() {
     this.storage.clear().then(() => {
     })    

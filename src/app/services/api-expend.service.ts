@@ -20,7 +20,7 @@ export class ApiExpendService {
         } 
       }
       return this.http.get(url, header).pipe(
-        delay(1500),
+        delay(1000),
         timeout(2500),
         catchError(
           error=>of(408)
@@ -79,7 +79,12 @@ export class ApiExpendService {
         "Authorization": "Bearer "+access_token
       } 
     }
-      return this.http.get(url+'?type='+0, header)
+      return this.http.get(url+'?type='+0, header).pipe(
+        timeout(2500),
+        catchError(
+          error=>of(408)
+        )
+      )
       .subscribe(
        (response)=>{
          let requestSucursales={
@@ -87,9 +92,15 @@ export class ApiExpendService {
            response,
          }
          if((Object.keys(response).length != 0)==true){
-          requestSucursales.status='200';
-          requestSucursales.response=response;
+          if(response==408){
+            requestSucursales.status='408';
+            requestSucursales.response=response;
            this.response=requestSucursales;
+           }else{
+             requestSucursales.status='200';
+             requestSucursales.response=response;
+             this.response=requestSucursales;
+            }
          }else  if((Object.keys(response).length == 0)==true){
           requestSucursales.status='404';
           requestSucursales.response=response;
@@ -146,9 +157,15 @@ export class ApiExpendService {
         response,
       }
       if((Object.keys(response).length != 0)==true && (Object.keys(response['events']['AVRules']).length != 0)==true){
-        requestAssistence.status='200';
-        requestAssistence.response=response;
-        this.response=requestAssistence;
+        if(response==408){
+          requestAssistence.status='408';
+          requestAssistence.response=response;
+         this.response=requestAssistence;
+         }else{
+          requestAssistence.status='200';
+          requestAssistence.response=response;
+          this.response=requestAssistence;
+        }
       }else if((Object.keys(response).length != 0) || (Object.keys(response['events']['AVRules']).length == 0)){
         requestAssistence.status='404';
         requestAssistence.response=response;

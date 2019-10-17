@@ -22,7 +22,7 @@ export class AuthLoginService {
         var url = 'https://'+adminCode+'.izytimecontrol.com/token';
       let params = 'grant_type=password&username='+adminMail+'&password='+adminPassword+'&fcmToken='+fcmToken
        this.http.post(url, params, this.header).pipe(
-         timeout(2500),
+         timeout(3500),
          catchError(
            error=>of(408)
          )
@@ -95,7 +95,7 @@ export class AuthLoginService {
           } 
         }
         this.http.get(url,header).pipe(
-          timeout(2500),
+          timeout(3500),
           catchError(error=>of(408)
           )
         ).subscribe((response)=>{

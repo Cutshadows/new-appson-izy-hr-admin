@@ -14,9 +14,6 @@ const FINGER_QUESTION='finger-question';
 export class AuthenticationService {
 
   authenticationState = new BehaviorSubject(false);
-  fingerquestion={
-    state:Boolean
-  };
 
   constructor(
     private storage: Storage,
@@ -50,22 +47,4 @@ export class AuthenticationService {
       }
     })
   }
-
-  credencialFingerStorage(ArregloCredenciales){
-    let promise= new Promise((resolve, reject)=>{
-      //if(this.plt.is('cordova')){
-        this.storage.set(FINGER_KEY, ArregloCredenciales);
-        resolve();
-      //}
-    });
-    return promise;
-  }
-  questionFingerStorage(ArregloRespuesta){
-    let promise = new Promise((resolve, reject)=>{
-      this.storage.set(FINGER_QUESTION, ArregloRespuesta);
-      resolve();
-    })
-    return promise;
-  }
-
 }
