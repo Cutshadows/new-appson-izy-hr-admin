@@ -52,7 +52,6 @@ export class MydevicesPage implements OnInit {
     })
   }
   async getReadersService() {
-    //this._functionAlert.MessageToast('Cargando...', 'top',1000);
     const toast= await this.toastController.create({
       message:'Cargando...',
       position:'top',
@@ -80,7 +79,7 @@ export class MydevicesPage implements OnInit {
           break;
         case '408':
             setTimeout(() => {
-              this._functionAlert.requireAlert('Error de Servicio', 'De Acuerdo');
+              this._functionAlert.requireAlert('Error de espera de respuesta', 'De Acuerdo');
             }, 2000);
               this.logout()
             break;

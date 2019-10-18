@@ -69,6 +69,11 @@ export class SelectbranchPage implements OnInit {
             this._functionAlert.requireAlert('Error de servicio','De acuerdo');
             this.logout()
           break;
+        case '408':
+            loadingElementMessage.dismiss();
+            this._functionAlert.requireAlert('Supero el tiempo de carga','De acuerdo');
+            this.dashboardGo()
+           break;
       }
     })    
   }

@@ -21,7 +21,7 @@ export class ApiExpendService {
       }
       return this.http.get(url, header).pipe(
         delay(1000),
-        timeout(2500),
+        timeout(3500),
         catchError(
           error=>of(408)
           )
@@ -35,18 +35,20 @@ export class ApiExpendService {
            if(response==408){
             requestDevices.status='408';
             requestDevices.response=response;
-           this.response=requestDevices;
+            this.response=requestDevices;
+            resolve(this.response);
            }else{
             requestDevices.status='200';
             requestDevices.response=response;
-           this.response=requestDevices;
+            this.response=requestDevices;
+            resolve(this.response);
            }
          }else  if((Object.keys(response).length == 0)==true){
             requestDevices.status='404';
             requestDevices.response=response;
             this.response=requestDevices;
+            resolve(this.response);
          }
-         resolve(this.response);
      },(error:HttpErrorResponse)=>{
       for (const key in error) {
         switch(key){
@@ -93,22 +95,22 @@ export class ApiExpendService {
          }
          if((Object.keys(response).length != 0)==true){
           if(response==408){
-            requestSucursales.status='408';
-            requestSucursales.response=response;
-           this.response=requestSucursales;
+              requestSucursales.status='408';
+              requestSucursales.response=response;
+              this.response=requestSucursales;
+              resolve(this.response);
            }else{
-             requestSucursales.status='200';
-             requestSucursales.response=response;
-             this.response=requestSucursales;
+              requestSucursales.status='200';
+              requestSucursales.response=response;
+              this.response=requestSucursales;
+              resolve(this.response);
             }
          }else  if((Object.keys(response).length == 0)==true){
-          requestSucursales.status='404';
-          requestSucursales.response=response;
+            requestSucursales.status='404';
+            requestSucursales.response=response;
             this.response=requestSucursales;
+            resolve(this.response);
          }
-         resolve(this.response);
-
-      
      },(error:HttpErrorResponse)=>{
       for (const key in error) {
         switch(key){
@@ -160,19 +162,20 @@ export class ApiExpendService {
         if(response==408){
           requestAssistence.status='408';
           requestAssistence.response=response;
-         this.response=requestAssistence;
+          this.response=requestAssistence;
+          resolve(this.response);
          }else{
           requestAssistence.status='200';
           requestAssistence.response=response;
           this.response=requestAssistence;
+          resolve(this.response);
         }
       }else if((Object.keys(response).length != 0) || (Object.keys(response['events']['AVRules']).length == 0)){
         requestAssistence.status='404';
         requestAssistence.response=response;
          this.response=requestAssistence;
+         resolve(this.response);
       }
-      resolve(this.response);
-
     },(error:HttpErrorResponse)=>{
        for (const key in error) {
         switch(key){

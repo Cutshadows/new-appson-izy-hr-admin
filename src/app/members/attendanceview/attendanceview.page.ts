@@ -158,7 +158,7 @@ export class AttendanceviewPage implements OnInit {
             }, 2000);
             this.logout();
             break;
-            case '408':
+          case '408':
             loadingElementMessage.dismiss();
             setTimeout(() => {
               this._functionAlert.requireAlert(
@@ -167,7 +167,7 @@ export class AttendanceviewPage implements OnInit {
               );
             }, 2000);
             this.logout();
-            break;
+        break;
         }
       });
   }
