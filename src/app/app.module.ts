@@ -22,6 +22,8 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { FunctionsService } from './services/functions.service';
 import { AuthLoginService } from './services/auth-login.service';
 import { IntroductionService } from './services/introduction.service';
+import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -43,7 +45,8 @@ import { IntroductionService } from './services/introduction.service';
     HTTP,
     FCM,
     LocalNotifications,
-    IntroductionService
+    IntroductionService,
+    FingerprintAIO
   ],
   bootstrap: [AppComponent]
 })
