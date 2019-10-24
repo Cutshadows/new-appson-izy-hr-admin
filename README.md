@@ -1,9 +1,9 @@
-# IZY HR ADMIN [IOS] v0.0.1
+# IZY HR ADMIN [IOS] v0.0.3 Current Version
  izy_admin
 [11:49, 17/10/2019] Douglas: # IZY HR ADMIN [ANDROID]
  izy_admin
 
-# ![aplicacion movil para IzyTech](../new-appson-izy-hr-admin/platforms/android/app/build/intermediates/merged_assets/debug/mergeDebugAssets/out/www/assets/img/introduction/ica-slidebox-img-2.png)
+# ![aplicacion movil para IzyTech](https://lh3.googleusercontent.com/YBN_C2LrrPICJ3YKVYB4eqJIg2xkU0n8U70NO8QOGU5RACKqVwZCvBuZQCD2-yhK3g=s180-rw)
 
 ## 1 .- Modulos de Control
    * login (ingreso)
