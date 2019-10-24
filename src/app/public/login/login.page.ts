@@ -10,8 +10,7 @@ import { AuthLoginService } from 'src/app/services/auth-login.service';
 import { FCM } from '@ionic-native/fcm/ngx';
 //ingresando finger print 
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
-
-
+const loginFinger='loginfingerCredencial';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -29,6 +28,7 @@ export class LoginPage implements OnInit {
   adminCode: string
   codeLowerCase: any
   adminLoginResDetail: string = 'adminLoginResDetail'
+  dataLogin=[];
   data: Observable<any>
   loadingElement: any
   fcmToken:any;
@@ -112,87 +112,11 @@ export class LoginPage implements OnInit {
          case '200':
             var responseData = response['response'];
               if(responseData['access_token']) {
-                if(this.plt.is('cordova')){
-                  this.fingerPrint.isAvailable().then(async typeAuth=>{
-                    switch(typeAuth){
-                      case 'finger':
-                        loadingElementMessage.dismiss();
-                                  this.fingerPrint.show({
-                                    clientId: 'ios.izyhradmin.com',
-                                    localizedFallbackTitle: 'Usar Pin', 
-                                    localizedReason: 'Para continuar, auntentificar con huella' 
-                                  }).then((resultFingerAuth:any)=>{
-                                    if(resultFingerAuth=='Success'){
-                                      this.storage.set(this.adminLoginResDetail, responseData);
-                                      this.storage.set('liveAdminCode', this.adminCode);
-                                      this.authService.login();
-                                      this.resetInput();
-                                      loadingElementMessage.dismiss();      
-                                    }
-                                  }).catch((error:any)=>{
-                                    this._functionAlert.MessageToast('Autentificacion no valida, intente mas tarde', 'top', 2000);
-                                    loadingElementMessage.dismiss();
-                                    this.resetInput();
-                                  });
-                        break;
-                      case 'face':
-                                  this.fingerPrint.show({
-                                    clientId: 'ios.izyhradmin.com',
-                                    localizedFallbackTitle: 'Usar Pin',
-                                    localizedReason: 'Para continuar, auntentificar con reconocimiento facial'
-                                  }).then((resultFingerAuth:any)=>{
-                                    if(resultFingerAuth=='Success'){
-                                      this.storage.set(this.adminLoginResDetail, responseData);
-                                      this.storage.set('liveAdminCode', this.adminCode);
-                                      this.authService.login();
-                                      this.resetInput();
-                                      loadingElementMessage.dismiss();  
-                                    }
-                                  }).catch((error:any)=>{
-                                    this._functionAlert.MessageToast('Autentificacion no valida, intente mas tarde', 'top', 2000);
-                                    loadingElementMessage.dismiss();
-                                    this.resetInput();
-                                  });
-                        break;
-                    }
-                  }).catch(async (error:any)=>{
-                    for (const key in error) {
-                      if (error.hasOwnProperty(key)) {
-                        const element = error[key];
-                        if(element=="Biometry is not available in passcode lockout" || element==8){
-                           this._functionAlert.requireAlert("Identificación incorrecta", 'De acuerdo');
-                        }else if(element=='No identities are enrolled.'|| element==7){
-                              const alert=await this.alertController.create({
-                                header:'Sin huella',
-                                message:'¿Desea continuar <strong>sin registrar metodo de autentificación</strong>?',
-                                cssClass:'classAlert',
-                                buttons:[
-                                  {
-                                    text:'SI',
-                                    cssClass:'cssAlert',
-                                    handler:() => {
-                                      this.storage.set(this.adminLoginResDetail, responseData);
-                                      this.storage.set('liveAdminCode', this.adminCode);
-                                      this.authService.login();
-                                      this.resetInput();
-                                      loadingElementMessage.dismiss();    
-                                    }
-                                  },{
-                                    text:'NO',
-                                    cssClass:'cssAlert',
-                                    handler:()=>{
-                                      this.resetInput();
-                                      loadingElementMessage.dismiss();
-                                    }
-                                  }
-                                ]
-                              });
-                              await alert.present();
-                        }
-                      }
-                    }
-                  })
-                }
+                this.storage.set(this.adminLoginResDetail, responseData);
+                this.storage.set('liveAdminCode', this.adminCode);
+                this.authService.login();
+                this.resetInput();
+                loadingElementMessage.dismiss();      
             }
            break;
          case '400':
@@ -263,96 +187,17 @@ export class LoginPage implements OnInit {
          case '200':
             var responseData = response['response']
               if(responseData['access_token']) {
-                if(this.plt.is('cordova')){
-                  this.fingerPrint.isAvailable().then(async typeAuth=>{
-                    switch(typeAuth){
-                      case 'finger':
-                            loadingElementMessage.dismiss();
-                                  this.fingerPrint.show({
-                                    clientId: 'ios.izyhradmin.com',
-                                    localizedFallbackTitle: 'Usar Pin', 
-                                    localizedReason: 'Para continuar, auntentificar con huella' 
-                                  }).then((resultFingerAuth:any)=>{
-                                    if(resultFingerAuth=='Success'){
-                                      this.storage.set(this.adminLoginResDetail, responseData);
-                                      this.codeArray.push(this.codeLowerCase);
-                                      this.storage.set('adminCode', this.codeLowerCase);          
-                                      this.storage.set('liveAdminCode', this.codeLowerCase);
-                                      this.storage.set('userCode', this.codeArray);       
-                                      this.authService.login();
-                                      this.resetInput();
-                                    }
-                                  }).catch((error:any)=>{
-                                    this._functionAlert.MessageToast('Autentificacion no valida, intente mas tarde', 'top', 2000);
-                                    this.resetInput();
-                                    loadingElementMessage.dismiss();
-                                  });
-                        break;
-                      case 'face':
-                          loadingElementMessage.dismiss();
-                                  this.fingerPrint.show({
-                                    clientId: 'ios.izyhradmin.com',
-                                    localizedFallbackTitle: 'Usar Pin',
-                                    localizedReason: 'Para continuar, auntentificar con reconocimiento facial'
-                                  }).then((resultFingerAuth:any)=>{
-                                    if(resultFingerAuth=='Success'){
-                                      this.storage.set(this.adminLoginResDetail, responseData);
-                                      this.codeArray.push(this.codeLowerCase);
-                                      this.storage.set('adminCode', this.codeLowerCase);          
-                                      this.storage.set('liveAdminCode', this.codeLowerCase);
-                                      this.storage.set('userCode', this.codeArray);
-                                      this.authService.login();
-                                      this.resetInput();
-                                    }
-                                  }).catch((error:any)=>{
-                                    this._functionAlert.MessageToast('Autentificacion no valida, intente mas tarde', 'top', 2000);
-                                    loadingElementMessage.dismiss();
-                                    this.resetInput();
-                                  });
-                        break;
-                    }
-                  }).catch(async (error:any)=>{
-                    for (const key in error) {
-                      if (error.hasOwnProperty(key)) {
-                        const element = error[key];
-                        if(element=="Biometry is not available in passcode lockout" || element==8){
-                           this._functionAlert.requireAlert("Identificación incorrecta", 'De acuerdo');
-                           loadingElementMessage.dismiss();
-                        }else if(element=='No identities are enrolled.'|| element==7){
-                              const alert=await this.alertController.create({
-                                header:'Sin huella',
-                                message:'¿Desea continuar <strong>sin registrar metodo de autentificación</strong>?',
-                                cssClass:'classAlert',
-                                buttons:[
-                                  {
-                                    text:'SI',
-                                    cssClass:'cssAlert',
-                                    handler:() => {
-                                      this.storage.set(this.adminLoginResDetail, responseData);
-                                      this.codeArray.push(this.codeLowerCase);
-                                      this.storage.set('adminCode', this.codeLowerCase);          
-                                      this.storage.set('liveAdminCode', this.codeLowerCase);
-                                      this.storage.set('userCode', this.codeArray);       
-                                      this.authService.login();
-                                      this.resetInput();
-                                    }
-                                  },{
-                                    text:'NO',
-                                    cssClass:'cssAlert',
-                                    handler:()=>{
-                                      this.resetInput();
-                                      loadingElementMessage.dismiss();
-                                    }
-                                  }
-                                ]
-                              });
-                              await alert.present();
-                        }
-                      }
-                    }
-                  })
-                }
-            }
+                loadingElementMessage.dismiss();
+                this.dataLogin.push({"email":this.adminMail , "password":this.adminPassword, "code":this.adminCode});
+                this.storage.set(loginFinger, this.dataLogin);
+                this.storage.set(this.adminLoginResDetail, responseData);
+                this.codeArray.push(this.codeLowerCase);
+                this.storage.set('adminCode', this.codeLowerCase);          
+                this.storage.set('liveAdminCode', this.codeLowerCase);
+                this.storage.set('userCode', this.codeArray);       
+                this.authService.login();
+                this.resetInput();
+             }
            break;
          case '400':
               setTimeout(() => {
@@ -386,139 +231,259 @@ export class LoginPage implements OnInit {
       })
     }
   }
-  async loginWithPreviousCode(){
-    if(this.adminMail == undefined || this.adminMail == '') {
-      this.requireAlert()   
-    } else if(this.adminPassword == undefined) {
-      this.requireAlert()
-    }
-    else {
-      let loadingElementMessage = await this.loadingController.create({
-        message: 'Verificando Usuario',
-        spinner: 'crescent',
-        cssClass: 'transparent',
-      });
-      loadingElementMessage.present();
 
-      this._authLogin.authLogin(this.userPreviousCode, this.adminMail,this.adminPassword,this.fcmToken)
-      .then((response) => {
-       switch(response['status']){
-         case '200':
-            var responseData = response['response']
-              if(responseData['access_token']) {
-                if(this.plt.is('cordova')){
-                  this.fingerPrint.isAvailable().then(typeAuth=>{
-                    switch(typeAuth){
-                      case 'finger':
-                          loadingElementMessage.dismiss();
-                                  this.fingerPrint.show({
-                                    clientId: 'ios.izyhradmin.com',
-                                    localizedFallbackTitle: 'Usar Pin', 
-                                    localizedReason: 'Para continuar, auntentificar con huella' 
-                                  }).then((resultFingerAuth:any)=>{
-                                    if(resultFingerAuth=='Success'){
-                                      this.storage.set(this.adminLoginResDetail, responseData);
-                                      this.authService.login();
-                                      this.resetInput();
-                                      loadingElementMessage.dismiss();
-                                    }
-                                  }).catch((error:any)=>{
-                                    this._functionAlert.MessageToast('Autentificacion no valida, intente mas tarde', 'top', 2000);
-                                    loadingElementMessage.dismiss();
-                                    this.resetInput();
-                                  });
-                        break;
-                      case 'face':
-                                  this.fingerPrint.show({
-                                    clientId: 'ios.izyhradmin.com',
-                                    localizedFallbackTitle: 'Usar Pin',
-                                    localizedReason: 'Para continuar, auntentificar con reconocimiento facial'
-                                  }).then((resultFingerAuth:any)=>{
-                                    if(resultFingerAuth=='Success'){
-                                      this.storage.set(this.adminLoginResDetail, responseData);
-                                      this.authService.login();
-                                      this.resetInput();
-                                      loadingElementMessage.dismiss();
-                                    }
-                                  }).catch((error:any)=>{
-                                    this._functionAlert.MessageToast('Autentificacion no valida, intente mas tarde', 'top', 2000);
-                                    loadingElementMessage.dismiss();
-                                    this.resetInput();
-                                  });
-                        break;
-                    }
-                  }).catch(async (error:any)=>{
-                    for (const key in error) {
-                      if (error.hasOwnProperty(key)) {
-                        const element = error[key];
-                        if(element=="Biometry is not available in passcode lockout" || element==8){
-                           this._functionAlert.requireAlert("Identificación incorrecta", 'De acuerdo');
-                        }else if(element=='No identities are enrolled.'|| element==7){
-                              const alert=await this.alertController.create({
-                                header:'Sin huella',
-                                message:'¿Desea continuar <strong>sin registrar metodo de autentificación</strong>?',
-                                cssClass:'classAlert',
-                                buttons:[
-                                  {
-                                    text:'SI',
-                                    cssClass:'cssAlert',
-                                    handler:() => {
-                                      this.storage.set(this.adminLoginResDetail, responseData);
-                                      this.authService.login();
-                                      this.resetInput();
-                                      loadingElementMessage.dismiss();
-                                    }
-                                  },{
-                                    text:'NO',
-                                    cssClass:'cssAlert',
-                                    handler:()=>{
-                                      loadingElementMessage.dismiss();
-                                      this.resetInput();
-                                    }
-                                  }
-                                ]
-                              });
-                              await alert.present();
-                        }
-                      }
-                    }
-                  })
+
+
+
+
+ionViewWillEnter(){
+    this.storage.keys().then((keyStorage)=>{
+      for (let index = 0; index < keyStorage.length; index++) {
+        const element = keyStorage[index];
+        if(element=='userCode'){
+          this.storage.get('userCode').then((datauserCode)=>{
+            if(datauserCode.length==1){
+              this.storage.get(loginFinger).then((dataLoginFinger)=>{
+                if(dataLoginFinger!=null){
+                  this.loginWithPreviousCode();
                 }
+              });
             }
-           break;
-         case '400':
-              setTimeout(() => {
-                loadingElementMessage.dismiss();
-              }, 500)
-              var responseData = response['response']
-              setTimeout(() => {
-                this._functionAlert.requireAlert(responseData['error_description'], 'De Acuerdo');
-              }, 600)
-              this.resetInput()
+          });
+        }
+      }
+    });
+}
+  
 
-           break;
-         case '0':
-            setTimeout(() => {
-              loadingElementMessage.dismiss()
-            }, 500)
-            var responseData = response['response']
-            setTimeout(() => {
-              this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
-            }, 600)
-           break;
-           case '408':
-            setTimeout(() => {
-              loadingElementMessage.dismiss()
-            }, 500)
-            var responseData = response['response']
-            setTimeout(() => {
-              this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
-            }, 600)
-           break;
+  async loginWithPreviousCode(){
+    let emailUserFinger, passwordUserFinger, codeUserFinger;
+    this.storage.get(loginFinger).then((val) => {
+      emailUserFinger=val[0].email;
+      passwordUserFinger=val[0].password;
+      codeUserFinger=val[0].code;
+    });
+    if(this.plt.is('cordova')){
+      this.fingerPrint.isAvailable().then(typeAuth=>{
+        switch(typeAuth){
+          case 'finger':
+              this.fingerPrint.show({
+                clientId: 'ios.izyhradmin.com',
+                localizedFallbackTitle: 'Usar Pin', 
+                localizedReason: 'Para continuar, auntentificar con huella' 
+              }).then( async (resultFingerAuth:any)=>{
+                if(resultFingerAuth=='Success'){
+                  let loadingElementMessage = await this.loadingController.create({
+                        message: 'Verificando Usuario',
+                        spinner: 'crescent',
+                        cssClass: 'transparent',
+                      });
+                      loadingElementMessage.present();
+                      this._authLogin.authLogin(codeUserFinger, emailUserFinger,passwordUserFinger,this.fcmToken)
+                      .then((response) => {
+                       switch(response['status']){
+                         case '200':
+                            var responseData = response['response']
+                              if(responseData['access_token']) {
+                                  this.storage.set(this.adminLoginResDetail, responseData);
+                                  this.authService.login();
+                                  this.resetInput();
+                                  loadingElementMessage.dismiss();
+                              }
+                           break;
+                         case '400':
+                              setTimeout(() => {
+                                loadingElementMessage.dismiss();
+                              }, 500)
+                              var responseData = response['response']
+                              setTimeout(() => {
+                                this._functionAlert.requireAlert(responseData['error_description'], 'De Acuerdo');
+                              }, 600)
+                              this.resetInput()
+                
+                           break;
+                         case '0':
+                            setTimeout(() => {
+                              loadingElementMessage.dismiss()
+                            }, 500)
+                            var responseData = response['response']
+                            setTimeout(() => {
+                              this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
+                            }, 600)
+                           break;
+                           case '408':
+                            setTimeout(() => {
+                              loadingElementMessage.dismiss()
+                            }, 500)
+                            var responseData = response['response']
+                            setTimeout(() => {
+                              this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
+                            }, 600)
+                           break;
+                
+                       }
+                      })
 
-       }
-      })
+
+                }
+              }).catch((error:any)=>{
+                this._functionAlert.MessageToast('Autentificacion no valida, intente mas tarde', 'top', 2000);
+                this.resetInput();
+              });
+            break;
+            case 'face':
+              this.fingerPrint.show({
+                clientId: 'ios.izyhradmin.com',
+                localizedFallbackTitle: 'Usar Pin',
+                localizedReason: 'Para continuar, auntentificar con reconocimiento facial'
+              }).then( async (resultFingerAuth:any)=>{
+                if(resultFingerAuth=='Success'){
+                  let loadingElementMessage = await this.loadingController.create({
+                    message: 'Verificando Usuario',
+                    spinner: 'crescent',
+                    cssClass: 'transparent',
+                  });
+                  loadingElementMessage.present();
+                  this._authLogin.authLogin(codeUserFinger, emailUserFinger,passwordUserFinger,this.fcmToken)
+                  .then((response) => {
+                   switch(response['status']){
+                     case '200':
+                        var responseData = response['response']
+                          if(responseData['access_token']) {
+                              this.storage.set(this.adminLoginResDetail, responseData);
+                              this.authService.login();
+                              this.resetInput();
+                              loadingElementMessage.dismiss();
+                          }
+                       break;
+                     case '400':
+                          setTimeout(() => {
+                            loadingElementMessage.dismiss();
+                          }, 500)
+                          var responseData = response['response']
+                          setTimeout(() => {
+                            this._functionAlert.requireAlert(responseData['error_description'], 'De Acuerdo');
+                          }, 600)
+                          this.resetInput()
+            
+                       break;
+                     case '0':
+                        setTimeout(() => {
+                          loadingElementMessage.dismiss()
+                        }, 500)
+                        var responseData = response['response']
+                        setTimeout(() => {
+                          this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
+                        }, 600)
+                       break;
+                       case '408':
+                        setTimeout(() => {
+                          loadingElementMessage.dismiss()
+                        }, 500)
+                        var responseData = response['response']
+                        setTimeout(() => {
+                          this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
+                        }, 600)
+                       break;
+            
+                   }
+
+                })
+              }
+              }).catch((error:any)=>{
+                this._functionAlert.MessageToast('Autentificacion no valida, intente mas tarde', 'top', 2000);
+                this.resetInput();
+              });
+            break;
+        }
+  }).catch(async (error:any)=>{
+    for (const key in error) {
+      if (error.hasOwnProperty(key)) {
+        const element = error[key];
+        if(element=="Biometry is not available in passcode lockout" || element==8){
+           this._functionAlert.requireAlert("Identificación incorrecta", 'De acuerdo');
+        }else if(element=='No identities are enrolled.'|| element==7){
+              const alert=await this.alertController.create({
+                header:'Sin huella',
+                message:'¿Desea continuar <strong>sin registrar metodo de autentificación</strong>?',
+                cssClass:'classAlert',
+                buttons:[
+                  {
+                    text:'SI',
+                    cssClass:'cssAlert',
+                    handler:async() => {
+                      if(this.adminMail == undefined || this.adminMail == '') {
+                          this.requireAlert()   
+                        } else if(this.adminPassword == undefined) {
+                          this.requireAlert()
+                        }
+                        else {
+                          let loadingElementMessage = await this.loadingController.create({
+                                message: 'Verificando Usuario',
+                                spinner: 'crescent',
+                                cssClass: 'transparent',
+                              });
+                              loadingElementMessage.present();
+                              this._authLogin.authLogin(this.userPreviousCode, this.adminMail,this.adminPassword,this.fcmToken)
+                              .then((response) => {
+                              switch(response['status']){
+                                case '200':
+                                    var responseData = response['response']
+                                              if(responseData['access_token']) {
+                                                  this.storage.set(this.adminLoginResDetail, responseData);
+                                                  this.authService.login();
+                                                  this.resetInput();
+                                                  loadingElementMessage.dismiss();
+                                              }
+                                           break;
+                                           case '400':
+                                                setTimeout(() => {
+                                                  loadingElementMessage.dismiss();
+                                                }, 500)
+                                                var responseData = response['response']
+                                                setTimeout(() => {
+                                                  this._functionAlert.requireAlert(responseData['error_description'], 'De Acuerdo');
+                                                }, 600)
+                                                this.resetInput()
+
+                                            break;
+                                          case '0':
+                                              setTimeout(() => {
+                                                loadingElementMessage.dismiss()
+                                              }, 500)
+                                              var responseData = response['response']
+                                              setTimeout(() => {
+                                                this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
+                                              }, 600)
+                                            break;
+                                            case '408':
+                                              setTimeout(() => {
+                                                loadingElementMessage.dismiss()
+                                              }, 500)
+                                              var responseData = response['response']
+                                              setTimeout(() => {
+                                                this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
+                                              }, 600)
+                                            break;
+                                }
+                              })
+                        }
+                    }
+                  },{
+                    text:'NO',
+                    cssClass:'cssAlert',
+                    handler:()=>{
+                      this.resetInput();
+                    }
+                  }
+                ]
+              });
+              await alert.present();
+        }
+      }
     }
+  })
+  }
   }
   addNewCodeHideShow(){
     this.addNewCodeButton = !this.addNewCodeButton
