@@ -1,6 +1,6 @@
 # IZY HR ADMIN [IOS] v0.0.3 Current Version
  izy_admin
-[11:49, 17/10/2019] Douglas: # IZY HR ADMIN [ANDROID]
+[11:49, 17/10/2019] Douglas: # IZY HR ADMIN [IOS]
  izy_admin
 
 # ![aplicacion movil para IzyTech](https://lh3.googleusercontent.com/YBN_C2LrrPICJ3YKVYB4eqJIg2xkU0n8U70NO8QOGU5RACKqVwZCvBuZQCD2-yhK3g=s180-rw)
