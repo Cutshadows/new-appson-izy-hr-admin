@@ -79,24 +79,35 @@ export class ApiExpendService {
         "Authorization": "Bearer "+access_token
       } 
     }
-      return this.http.get(url+'?type='+0, header).subscribe(
+      return this.http.get(url+'?type='+0, header).pipe(
+        timeout(3500),
+        catchError(
+          error=>of(408)
+        )
+      ).subscribe(
        (response)=>{
          let requestSucursales={
            status,
            response,
          }
          if((Object.keys(response).length != 0)==true){
-          requestSucursales.status='200';
-          requestSucursales.response=response;
-           this.response=requestSucursales;
+           if(response==408){
+            requestSucursales.status='408';
+            requestSucursales.response=response;
+            this.response=requestSucursales;
+            resolve(this.response);
+           }else{
+              requestSucursales.status='200';
+              requestSucursales.response=response;
+              this.response=requestSucursales;
+              resolve(this.response);
+           }
          }else  if((Object.keys(response).length == 0)==true){
           requestSucursales.status='404';
           requestSucursales.response=response;
             this.response=requestSucursales;
+            resolve(this.response);
          }
-         resolve(this.response);
-
-      
      },(error:HttpErrorResponse)=>{
       for (const key in error) {
         switch(key){
@@ -134,7 +145,7 @@ export class ApiExpendService {
     return this.http.get(url+'?branchId='+newBranchLeftRight, header)
     .pipe(
       delay(450),
-      timeout(2500),
+      timeout(4500),
        catchError(
          error=> of(408)
          )

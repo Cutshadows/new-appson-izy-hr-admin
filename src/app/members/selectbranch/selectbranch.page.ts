@@ -65,6 +65,13 @@ export class SelectbranchPage implements OnInit {
             loadingElementMessage.dismiss();
             this._functionAlert.requireAlert('Datos no encontrados','De acuerdo');
           break;
+          case '408':
+            loadingElementMessage.dismiss();
+            this._functionAlert.requireAlert('Problemas de conexion para cargar la data.','De acuerdo');
+            setTimeout(()=>{
+              this.dashboardGo();
+            },2000);
+          break;
         case '0':
             loadingElementMessage.dismiss();
             this._functionAlert.requireAlert('Error de servicio','De acuerdo');
