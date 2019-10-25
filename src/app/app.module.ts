@@ -25,6 +25,7 @@ import { IntroductionService } from './services/introduction.service';
 //FINGERPRINTSTRATEGY ANDROID
 import {FingerprintAIO} from '@ionic-native/fingerprint-aio/ngx';
 
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
