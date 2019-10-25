@@ -20,8 +20,8 @@ export class ApiExpendService {
         } 
       }
       return this.http.get(url, header).pipe(
-        delay(1000),
-        timeout(3500),
+        delay(1500),
+        timeout(10000),
         catchError(
           error=>of(408)
           )
@@ -82,7 +82,7 @@ export class ApiExpendService {
       } 
     }
       return this.http.get(url+'?type='+0, header).pipe(
-        timeout(2500),
+        timeout(10000),
         catchError(
           error=>of(408)
         )
@@ -148,7 +148,7 @@ export class ApiExpendService {
     return this.http.get(url+'?branchId='+newBranchLeftRight, header)
     .pipe(
       delay(450),
-      timeout(2500),
+      timeout(10000),
       catchError(
         error => of(408)
         )

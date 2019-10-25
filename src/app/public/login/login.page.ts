@@ -224,7 +224,7 @@ export class LoginPage implements OnInit {
              }, 500)
              var responseData = response['response']
              setTimeout(() => {
-               this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
+               this._functionAlert.requireAlert('Tiempo de respuesta excedido', 'De Acuerdo');
              }, 600)
             break;
        }
