@@ -3,7 +3,7 @@
 [11:49, 17/10/2019] Douglas: # IZY HR ADMIN [IOS]
  izy_admin
 
-# ![aplicacion movil para IzyTech](https://lh3.googleusercontent.com/YBN_C2LrrPICJ3YKVYB4eqJIg2xkU0n8U70NO8QOGU5RACKqVwZCvBuZQCD2-yhK3g=s180-rw) ![plataforma IOS](https://img1.freepng.es/20180319/kvw/kisspng-iphone-computer-icons-apple-icon-image-format-app-os7-style-metro-ui-icon-5ab06b39630445.4370921315215112254056.jpg)
+# ![aplicacion movil para IzyTech](https://lh3.googleusercontent.com/YBN_C2LrrPICJ3YKVYB4eqJIg2xkU0n8U70NO8QOGU5RACKqVwZCvBuZQCD2-yhK3g=s180-rw) ![plataforma IOS](https://img1.freepng.es/20180319/kvw/kisspng-iphone-computer-icons-apple-icon-image-format-app-os7-style-metro-ui-icon-5ab06b39630445.4370921315215112254056.jpg =200px)
 
 ## 1 .- Modulos de Control
    * login (ingreso)
