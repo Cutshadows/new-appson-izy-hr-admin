@@ -1,7 +1,7 @@
 # izy_admin
  izy_admin
 
-# ![aplicacion movil para IzyTech](https://lh3.googleusercontent.com/YBN_C2LrrPICJ3YKVYB4eqJIg2xkU0n8U70NO8QOGU5RACKqVwZCvBuZQCD2-yhK3g=s180-rw)
+# ![aplicacion movil para IzyTech](https://lh3.googleusercontent.com/YBN_C2LrrPICJ3YKVYB4eqJIg2xkU0n8U70NO8QOGU5RACKqVwZCvBuZQCD2-yhK3g=s180-rw) <img src="https://tr1.cbsistatic.com/hub/i/2019/08/27/37a65923-bee5-4f2d-9df9-64a94f84d8a5/android10hero.jpg" alt="plataforma ios" width="80px" height="80px">
 
 ## 1 .- Modulos de Control
    * login (ingreso)
