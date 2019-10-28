@@ -11,6 +11,7 @@ import { AuthLoginService } from 'src/app/services/auth-login.service';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 
 const loginFinger='loginfingerCredencial';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -30,6 +31,7 @@ export class LoginPage implements OnInit {
   codeLowerCase: any;
   adminLoginResDetail: string = 'adminLoginResDetail';
   data: Observable<any>;
+  availible: boolean;
   loadingElement: any;
   fcmToken: any;
   scheduled = [];
@@ -246,8 +248,8 @@ export class LoginPage implements OnInit {
           this.storage.get('userCode').then((datauserCode)=>{
             if(datauserCode.length==1){
               this.storage.get(loginFinger).then((dataLoginFinger)=>{
-                if(dataLoginFinger!=null){
-                  this.loginWithPreviousCode();
+                if(dataLoginFinger!=null && this.availible==true){
+                    this.loginWithPreviousCode();
                 }
               });
             }
@@ -265,6 +267,7 @@ async loginWithPreviousCode(){
   });
   if(this.plt.is('cordova')){
     this.fingerPrint.isAvailable().then(typeAuth=>{
+      this.availible=true;
       switch(typeAuth){
         case 'finger':
             this.fingerPrint.show({
@@ -384,9 +387,7 @@ async loginWithPreviousCode(){
                         this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
                       }, 600)
                      break;
-          
                  }
-
               })
             }
             }).catch((error:any)=>{
@@ -396,9 +397,11 @@ async loginWithPreviousCode(){
           break;
       }
 }).catch(async (error:any)=>{
+  this.availible=false;
   for (const key in error) {
     if (error.hasOwnProperty(key)) {
       const element = error[key];
+      console.log("elementos del error "+element);
       if(element=="Biometry is not available in passcode lockout" || element==8){
          this._functionAlert.requireAlert("Identificación incorrecta", 'De acuerdo');
       }else if(element=='No identities are enrolled.'|| element==7){
@@ -478,71 +481,69 @@ async loginWithPreviousCode(){
               ]
             });
             await alert.present();
+      }else if(element=="minimum SDK version 23 required" && this.availible==false){
+        if(this.adminMail == undefined || this.adminMail == '') {
+          this.requireAlert()   
+        } else if(this.adminPassword == undefined) {
+          this.requireAlert()
+        }
+        else {
+          let loadingElementMessage = await this.loadingController.create({
+                message: 'Verificando Usuario',
+                spinner: 'crescent',
+                cssClass: 'transparent',
+              });
+              loadingElementMessage.present();
+              this._authLogin.authLogin(this.userPreviousCode, this.adminMail,this.adminPassword,this.fcmToken)
+              .then((response) => {
+              switch(response['status']){
+                case '200':
+                    var responseData = response['response']
+                              if(responseData['access_token']) {
+                                  this.storage.set(this.adminLoginResDetail, responseData);
+                                  this.authService.login();
+                                  this.resetInput();
+                                  loadingElementMessage.dismiss();
+                              }
+                           break;
+                           case '400':
+                                setTimeout(() => {
+                                  loadingElementMessage.dismiss();
+                                }, 500)
+                                var responseData = response['response']
+                                setTimeout(() => {
+                                  this._functionAlert.requireAlert(responseData['error_description'], 'De Acuerdo');
+                                }, 600)
+                                this.resetInput()
+
+                            break;
+                          case '0':
+                              setTimeout(() => {
+                                loadingElementMessage.dismiss()
+                              }, 500)
+                              var responseData = response['response']
+                              setTimeout(() => {
+                                this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
+                              }, 600)
+                            break;
+                            case '408':
+                              setTimeout(() => {
+                                loadingElementMessage.dismiss()
+                              }, 500)
+                              var responseData = response['response']
+                              setTimeout(() => {
+                                this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
+                              }, 600)
+                            break;
+                }
+              })
+        }
       }
     }
   }
 })
 }
 }
-  // async loginWithPreviousCode(){
-  //   if(this.adminMail == undefined || this.adminMail == '') {
-  //     this.requireAlert()   
-  //   } else if(this.adminPassword == undefined) {
-  //     this.requireAlert()
-  //   }
-  //   else {
-  //     let loadingElementMessage = await this.loadingController.create({
-  //       message: 'Verificando Usuario',
-  //       spinner: 'crescent',
-  //       cssClass: 'transparent',
-  //     });
-  //     loadingElementMessage.present();
-  //     this._authLogin.authLogin(this.userPreviousCode, this.adminMail,this.adminPassword,this.fcmToken)
-  //     .then((response) => {
-  //      switch(response['status']){
-  //        case '200':
-  //           var responseData = response['response']
-  //             if(responseData['access_token']) {
-  //               this.storage.set(this.adminLoginResDetail, responseData);
-  //               this.authService.login();
-  //               this.resetInput();
-  //               loadingElementMessage.dismiss();
-  //           }
-  //          break;
-  //        case '400':
-  //             setTimeout(() => {
-  //               loadingElementMessage.dismiss();
-  //             }, 500)
-  //             var responseData = response['response']
-  //             setTimeout(() => {
-  //               this._functionAlert.requireAlert(responseData['error_description'], 'De Acuerdo');
-  //             }, 600)
-  //             this.resetInput()
-
-  //          break;
-  //        case '0':
-  //           setTimeout(() => {
-  //             loadingElementMessage.dismiss();
-  //           }, 500)
-  //           var responseData = response['response']
-  //           setTimeout(() => {
-  //             this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
-  //           }, 600)
-  //          break;
-  //          case '408':
-  //           setTimeout(() => {
-  //             loadingElementMessage.dismiss();
-  //           }, 500)
-  //           var responseData = response['response']
-  //           setTimeout(() => {
-  //             this._functionAlert.requireAlert('Error de Conexion', 'De Acuerdo');
-  //           }, 600)
-  //          break;
-
-  //      }
-  //     });
-  //   }
-  // }
   addNewCodeHideShow(){
     this.addNewCodeButton = !this.addNewCodeButton
     this.adminPassword = undefined
